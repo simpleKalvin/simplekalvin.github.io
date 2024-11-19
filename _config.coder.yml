@@ -1,0 +1,58 @@
+# 当前版本 | Theme Version
+Hexo: "2.1"
+
+# 网站标题 | Title
+logo_title: Kalvin's Blog
+
+# 初始化风格 | Default Style "black/light"
+# style: black
+style: light
+
+#SEO优化 | SEO settings
+
+## 网站描述 | Description
+description: Golang,PHP Developer
+
+## 网站关键词：用英文逗号分割 | Keywords
+keywords: Blog,Hexo,Theme,刘训灼,LiuXunzhuo
+
+# 首页URL | Your URL
+link: Your_URL
+
+#标语 | Your Slogan
+words: Golang,PHP Developer
+
+# 你的昵称 | Your Name
+author: Kalvin
+
+# 中心图标选择男女或者自定义 | Gender
+gender: /img/me.jpg #/img/female.png
+
+# 站点小图标地址 | Small Icon of Your Site
+# favicon: /img/favicon.ico
+favicon: /img/site.png
+
+# 菜单栏配置 | Nav Bar Settings
+menu:
+  关于我👀: /about
+  # 访问主站🎉: https://liuxunzhuo.tech
+  GitHub🐒: https://github.com/simpleKalvin
+
+# 站内关键词搜索 | Local Search
+search:
+  enable: true
+  path: search.xml
+  field: post
+  # onload: true
+
+# Valine 评论系统 | Comments of Valine
+## 请改成自己的 KEY ｜ Replace Your Own Key
+## 若关闭valine 设置enable为false
+valine:
+  enable: false
+  appId: NOsswOncKgc8HOxqo9oxIWlX-gzGzoHsz
+  appKey: z1FihjWEbS8uIfUQdmCtK7zz
+
+# 代码高亮 ｜ Code Highlight
+highlight:
+  enable: true
