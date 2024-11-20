@@ -17,7 +17,7 @@ description: Golang,PHP Developer
 keywords: Blog,Hexo,Theme,刘训灼,LiuXunzhuo
 
 # 首页URL | Your URL
-link: Your_URL
+link: https://simpleKalvin.github.io/blog
 
 #标语 | Your Slogan
 words: Golang,PHP Developer
@@ -35,7 +35,7 @@ favicon: /img/site.png
 # 菜单栏配置 | Nav Bar Settings
 menu:
   关于我👀: /about
-  # 访问主站🎉: https://liuxunzhuo.tech
+  访问主站🎉: https://simpleKalvin.github.io/blog
   GitHub🐒: https://github.com/simpleKalvin
 
 # 站内关键词搜索 | Local Search
