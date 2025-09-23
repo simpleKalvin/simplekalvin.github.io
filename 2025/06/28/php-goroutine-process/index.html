@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon-32x32.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"simplekalvin.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="php-swoole 协程原理graph TB     subgraph 初始化阶段[初始化阶段]         A[启动 Swoole 服务] --&gt; B[&quot;创建协程容器(Coroutine\\run())&quot;]         B --&gt; C[&quot;初始化事件循环(EventLoop)&quot;]     end      subgraph 协程创建阶段[协程创建]         D[事件触发] --&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php-swoole 协程原理">
+<meta property="og:url" content="https://simplekalvin.github.io/2025/06/28/php-goroutine-process/index.html">
+<meta property="og:site_name" content="Kalvin&#39;s Blog">
+<meta property="og:description" content="php-swoole 协程原理graph TB     subgraph 初始化阶段[初始化阶段]         A[启动 Swoole 服务] --&gt; B[&quot;创建协程容器(Coroutine\\run())&quot;]         B --&gt; C[&quot;初始化事件循环(EventLoop)&quot;]     end      subgraph 协程创建阶段[协程创建]         D[事件触发] --&gt;">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-06-28T00:40:27.000Z">
+<meta property="article:modified_time" content="2025-09-23T08:42:14.574Z">
+<meta property="article:author" content="Kalvin">
+<meta property="article:tag" content="php">
+<meta property="article:tag" content="swoole">
+<meta property="article:tag" content="goroutine">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://simplekalvin.github.io/2025/06/28/php-goroutine-process/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>php-swoole 协程原理 | Kalvin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Kalvin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/28/php-goroutine-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          php-swoole 协程原理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-28 08:40:27" itemprop="dateCreated datePublished" datetime="2025-06-28T08:40:27+08:00">2025-06-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="php-swoole-协程原理"><a href="#php-swoole-协程原理" class="headerlink" title="php-swoole 协程原理"></a>php-swoole 协程原理</h1><pre class="mermaid">graph TB
+    subgraph 初始化阶段[初始化阶段]
+        A[启动 Swoole 服务] --> B["创建协程容器<br>(Coroutine\\run())"]
+        B --> C["初始化事件循环<br>(EventLoop)"]
+    end
+
+    subgraph 协程创建阶段[协程创建]
+        D[事件触发] --> E["创建新协程<br>(如 onRequest/onReceive)"]
+        E --> F["保存当前执行上下文<br>(ZendVM 堆栈/寄存器)"]
+    end
+
+    subgraph IO处理阶段[IO 操作与调度]
+        F --> G{遇到 IO 操作?}
+        G -->|是| H["挂起当前协程<br>(yield)"]
+        H --> I[注册 IO 事件到 EventLoop]
+        I --> J[切换至其他就绪协程]
+        G -->|否| K[同步执行代码]
+    end
+
+    subgraph 调度器工作[调度器事件循环]
+        J --> L[EventLoop 监听 IO 事件]
+        L --> M{IO 完成?}
+        M -->|是| N["恢复对应协程<br>(resume)"]
+        N --> O[从挂起点继续执行]
+        M -->|否| L
+    end
+
+    subgraph 结果处理[协程结束]
+        O --> P[返回结果/释放资源]
+        P --> Q[销毁协程上下文]
+    end
+
+    style 初始化阶段 fill:#e1f5fe,stroke:#039be5
+    style 协程创建阶段 fill:#ffecb3,stroke:#ffc107
+    style IO处理阶段 fill:#c8e6c9,stroke:#4caf50
+    style 调度器工作 fill:#bbdefb,stroke:#2196f3
+    style 结果处理 fill:#ffccbc,stroke:#ff5722</pre>
+
+<h2 id="协程切换调度原理"><a href="#协程切换调度原理" class="headerlink" title="协程切换调度原理"></a>协程切换调度原理</h2><pre class="mermaid">graph TB
+    subgraph Reactor线程
+        A[Reactor线程] -->|监听网络事件| B["接收新连接/数据"]
+        B -->|投递数据| C[Worker进程]
+    end
+
+    subgraph Worker进程
+        C --> D["创建主协程<br>（Reactor协程）"]
+        D --> E["协程调度器<br>（EventLoop调度）"]
+        E -->|协程切换| F[执行其他协程]
+    end
+
+    style Reactor线程 fill:#bbdefb,stroke:#2196f3
+    style Worker进程 fill:#c8e6c9,stroke:#4caf50</pre>
+
+<h2 id="select-poll-epoll"><a href="#select-poll-epoll" class="headerlink" title="select poll epoll"></a>select poll epoll</h2><h3 id="select"><a href="#select" class="headerlink" title="select"></a>select</h3><p>select 是一个系统调用，用于等待多个文件描述符的可读或可写事件。select 函数会阻塞当前进程，直到有文件描述符满足条件。长度默认为 1024, <strong>无差别轮询</strong></p>
+<ol>
+<li>用户初始化 fd_set（设置需监听的 FD 位为 1）</li>
+<li>调用 select 将 FD 集合复制到内核</li>
+<li>内核遍历所有 FD，检查是否就绪（如读缓冲区有数据）</li>
+<li>就绪的 FD 对应位保留为 1，未就绪置 0</li>
+<li>内核将修改后的集合复制回用户态</li>
+<li>用户遍历整个集合找出就绪的 FD</li>
+</ol>
+<h3 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h3><p>poll 函数和 select 函数类似，但 poll 函数有如下区别：与 select 没什么区别，唯一区别就是长度限制没有了，唯一就是受到 linux fd 的约束 <strong>无差别轮询</strong></p>
+<ol>
+<li>使用 pollfd 结构体数组管理 FD，无数量限制，但仍需每次复制整个数组到内核，内核轮询所有 FD。</li>
+<li>用户初始化 pollfd 数组（指定 FD 及关注的事件 events）</li>
+<li>调用 poll 将数组复制到内核</li>
+<li>内核遍历数组检查每个 FD 的状态</li>
+<li>将就绪事件写入 revents 字段</li>
+<li>内核返回就绪的 FD 数量</li>
+<li>用户遍历数组检查 revents 处理事件</li>
+</ol>
+<h3 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h3><p>通过事件回调触发，swoole 就用这个 epoll</p>
+<ol>
+<li>基于事件驱动：通过 epoll_ctl 注册 FD 到内核的红黑树，事件发生时通过回调将就绪 FD 加入就绪链表，epoll_wait 仅返回就绪的 FD。 |</li>
+<li>epoll_create 创建 epoll 实例（内核维护红黑树和就绪链表）</li>
+<li>epoll_ctl 注册 FD（添加到红黑树，并注册回调函数）</li>
+<li>FD 就绪时，内核回调函数将其加入就绪链表</li>
+<li>epoll_wait 从就绪链表中获取事件（无需遍历所有 FD）</li>
+<li>用户直接处理返回的就绪事件</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/php/" rel="tag"># php</a>
+              <a href="/tags/swoole/" rel="tag"># swoole</a>
+              <a href="/tags/goroutine/" rel="tag"># goroutine</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/06/28/swoole-process/" rel="prev" title="swoole 原理">
+      <i class="fa fa-chevron-left"></i> swoole 原理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/06/28/laravel-process/" rel="next" title="laravel 启动原理">
+      laravel 启动原理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#php-swoole-%E5%8D%8F%E7%A8%8B%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">php-swoole 协程原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E5%88%87%E6%8D%A2%E8%B0%83%E5%BA%A6%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">协程切换调度原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select-poll-epoll"><span class="nav-number">1.2.</span> <span class="nav-text">select poll epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#select"><span class="nav-number">1.2.1.</span> <span class="nav-text">select</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#poll"><span class="nav-number">1.2.2.</span> <span class="nav-text">poll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll"><span class="nav-number">1.2.3.</span> <span class="nav-text">epoll</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kalvin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Kalvin</p>
+  <div class="site-description" itemprop="description">Golang,PHP Developer</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/simpleKalvin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;simpleKalvin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kalvin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'neutral',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon-32x32.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"simplekalvin.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="基本概念 HttpServer  ControllerRegister  Config  LifeCycleCallback">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BeegoWeb框架原理">
+<meta property="og:url" content="https://simplekalvin.github.io/2024/11/20/post/index.html">
+<meta property="og:site_name" content="Kalvin&#39;s Blog">
+<meta property="og:description" content="基本概念 HttpServer  ControllerRegister  Config  LifeCycleCallback">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-11-20T02:54:35.000Z">
+<meta property="article:modified_time" content="2025-09-23T08:42:14.574Z">
+<meta property="article:author" content="Kalvin">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://simplekalvin.github.io/2024/11/20/post/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>BeegoWeb框架原理 | Kalvin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Kalvin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2024/11/20/post/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BeegoWeb框架原理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-11-20 10:54:35" itemprop="dateCreated datePublished" datetime="2024-11-20T10:54:35+08:00">2024-11-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><ol>
+<li><p>HttpServer</p>
+</li>
+<li><p>ControllerRegister</p>
+</li>
+<li><p>Config</p>
+</li>
+<li><p>LifeCycleCallback</p>
+</li>
+</ol>
+<img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyIgZGF0YS1kaWFncmFtLXR5cGU9IkNMQVNTIiBoZWlnaHQ9IjEzNHB4IiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBzdHlsZT0id2lkdGg6MzAycHg7aGVpZ2h0OjEzNHB4O2JhY2tncm91bmQ6I0ZGRkZGRjsiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMwMiAxMzQiIHdpZHRoPSIzMDJweCIgem9vbUFuZFBhbj0ibWFnbmlmeSI+PGRlZnMvPjxnPjwhLS1jbGFzcyBIdHRwU2VydmVyLS0+PGcgY2xhc3M9ImVudGl0eSIgZGF0YS1lbnRpdHk9Ikh0dHBTZXJ2ZXIiIGRhdGEtc291cmNlLWxpbmU9IjEiIGRhdGEtdWlkPSJlbnQwMDAyIiBpZD0iZW50aXR5X0h0dHBTZXJ2ZXIiPjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iMTEzLjE4NzUiIHJ4PSIyLjUiIHJ5PSIyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjI4MS4xNzg3IiB4PSI3IiB5PSI3Ii8+PGVsbGlwc2UgY3g9IjEwNS4xODgiIGN5PSIyMyIgZmlsbD0iI0YxRjFGMSIgcng9IjExIiByeT0iMTEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48cGF0aCBkPSJNMTA0LjY3MjQsMjMuNTYyNSBRMTAyLjgxMywyMi44NTk0IDEwMi4xNTY3LDIyLjA5MzggUTEwMS41MTYxLDIxLjMxMjUgMTAxLjUxNjEsMjAgUTEwMS41MTYxLDE4LjMxMjUgMTAyLjU5NDIsMTcuMzQzOCBRMTAzLjY3MjQsMTYuMzc1IDEwNS41NDc0LDE2LjM3NSBRMTA2LjQwNjcsMTYuMzc1IDEwNy4yNTA1LDE2LjU3ODEgUTEwOC4xMDk5LDE2Ljc2NTYgMTA4Ljk1MzYsMTcuMTU2MyBMMTA4Ljk1MzYsMTkuNTQ2OSBRMTA4LjE3MjQsMTguOTg0NCAxMDcuMzQ0MiwxOC43MDMxIFExMDYuNTMxNywxOC40MDYzIDEwNS43MzQ5LDE4LjQwNjMgUTEwNC44NTk5LDE4LjQwNjMgMTA0LjM3NTUsMTguNzY1NiBRMTAzLjkwNjcsMTkuMTI1IDEwMy45MDY3LDE5Ljc4MTMgUTEwMy45MDY3LDIwLjI5NjkgMTA0LjI1MDUsMjAuNjQwNiBRMTA0LjU5NDIsMjAuOTY4OCAxMDUuNjg4LDIxLjM3NSBMMTA2Ljc1MDUsMjEuNzgxMyBRMTA4LjIzNDksMjIuMzI4MSAxMDguOTM4LDIzLjIzNDQgUTEwOS42NTY3LDI0LjE0MDYgMTA5LjY1NjcsMjUuNTE1NiBRMTA5LjY1NjcsMjcuMzkwNiAxMDguNTQ3NCwyOC4zMTI1IFExMDcuNDM4LDI5LjIzNDQgMTA1LjE4OCwyOS4yMzQ0IFExMDQuMjY2MSwyOS4yMzQ0IDEwMy4zNDQyLDI5LjAxNTYgUTEwMi40MjI0LDI4Ljc5NjkgMTAxLjU2MywyOC4zNzUgTDEwMS41NjMsMjUuODQzOCBRMTAyLjUzMTcsMjYuNTMxMyAxMDMuNDUzNiwyNi44NzUgUTEwNC4zNzU1LDI3LjIxODggMTA1LjI2NjEsMjcuMjE4OCBRMTA2LjE3MjQsMjcuMjE4OCAxMDYuNjcyNCwyNi44MTI1IFExMDcuMTcyNCwyNi4zOTA2IDEwNy4xNzI0LDI1LjY1NjMgUTEwNy4xNzI0LDI1LjA5MzggMTA2LjgyODYsMjQuNjg3NSBRMTA2LjUwMDUsMjQuMjY1NiAxMDUuODc1NSwyNC4wMTU2IEwxMDQuNjcyNCwyMy41NjI1IFogIiBmaWxsPSIjMDAwMDAwIi8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNzYuMzAyNyIgeD0iMTI1LjY4OCIgeT0iMjcuODQ2NyI+SHR0cFNlcnZlcjwvdGV4dD48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHgxPSI4IiB4Mj0iMjg3LjE3ODciIHkxPSIzOSIgeTI9IjM5Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjAxLjMxMTUiIHg9IjEzIiB5PSI1NS45OTUxIj5IYW5kbGVycyAqQ29udHJvbGxlclJlZ2lzdGVyPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEzNi40NTkiIHg9IjEzIiB5PSI3Mi4yOTIiPlNlcnZlciAqaHR0cC5TZXJ2ZXI8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iOTMuMzEwNSIgeD0iMTMiIHk9Ijg4LjU4ODkiPkNmZyAgICAqQ29uZmlnPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjI2OS4xNzg3IiB4PSIxMyIgeT0iMTA0Ljg4NTciPkxpZmVDeWNsZUNhbGxiYWNrcyBbXUxpZmVDeWNsZUNhbGxCYWNrPC90ZXh0PjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgeDE9IjgiIHgyPSIyODcuMTc4NyIgeTE9IjExMi4xODc1IiB5Mj0iMTEyLjE4NzUiLz48L2c+PCEtLVNSQz1bMm91ZkFhcWtLVjBlQUlhOEpZcWdJb3NndmI4MDBlXzRsOUlTckE5WTFJdGRfQm9JZWxtUzgyU2VESnNwazJJcjJBbTBlYlgxQW1FZUtHXzIwT2l4ZndNM0E5MnNqQ25xaTkxRlBiZ2dTc0xvSmdmcE9hdkVLYzlvVGg1MlQyb0FlMURHYUFpTTAwMDBdLS0+PC9nPjwvc3ZnPg=='>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/03/30/2024-03-30/" rel="prev" title="MySQL原理">
+      <i class="fa fa-chevron-left"></i> MySQL原理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/06/28/resume-task/" rel="next" title="面试任务清单">
+      面试任务清单 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kalvin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Kalvin</p>
+  <div class="site-description" itemprop="description">Golang,PHP Developer</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/simpleKalvin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;simpleKalvin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kalvin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'neutral',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

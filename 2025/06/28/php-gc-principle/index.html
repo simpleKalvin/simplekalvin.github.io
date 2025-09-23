@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon-32x32.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"simplekalvin.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="PHP 垃圾回收 原理 PHP 垃圾回收依赖两大部分，分别是垃圾回收器和垃圾回收算法。  垃圾回收器垃圾回收器是 PHP 运行时环境提供的一种机制，用于回收不再使用的对象。 配置项：zend.enable_gc 是否开启 GCgc_probability gc 运行概率 1 为 100%gc_divisor gc 概率分母gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP 垃圾回收 原理">
+<meta property="og:url" content="https://simplekalvin.github.io/2025/06/28/php-gc-principle/index.html">
+<meta property="og:site_name" content="Kalvin&#39;s Blog">
+<meta property="og:description" content="PHP 垃圾回收 原理 PHP 垃圾回收依赖两大部分，分别是垃圾回收器和垃圾回收算法。  垃圾回收器垃圾回收器是 PHP 运行时环境提供的一种机制，用于回收不再使用的对象。 配置项：zend.enable_gc 是否开启 GCgc_probability gc 运行概率 1 为 100%gc_divisor gc 概率分母gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-06-27T22:43:55.000Z">
+<meta property="article:modified_time" content="2025-09-23T08:42:14.574Z">
+<meta property="article:author" content="Kalvin">
+<meta property="article:tag" content="php">
+<meta property="article:tag" content="gc">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://simplekalvin.github.io/2025/06/28/php-gc-principle/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>PHP 垃圾回收 原理 | Kalvin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Kalvin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/28/php-gc-principle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PHP 垃圾回收 原理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-28 06:43:55" itemprop="dateCreated datePublished" datetime="2025-06-28T06:43:55+08:00">2025-06-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="PHP-垃圾回收-原理"><a href="#PHP-垃圾回收-原理" class="headerlink" title="PHP 垃圾回收 原理"></a>PHP 垃圾回收 原理</h1><blockquote>
+<p>PHP 垃圾回收依赖两大部分，分别是垃圾回收器和垃圾回收算法。</p>
+</blockquote>
+<h2 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a>垃圾回收器</h2><p>垃圾回收器是 PHP 运行时环境提供的一种机制，用于回收不再使用的对象。</p>
+<h3 id="配置项："><a href="#配置项：" class="headerlink" title="配置项："></a>配置项：</h3><h4 id="zend-enable-gc-是否开启-GC"><a href="#zend-enable-gc-是否开启-GC" class="headerlink" title="zend.enable_gc 是否开启 GC"></a>zend.enable_gc 是否开启 GC</h4><h4 id="gc-probability-gc-运行概率-1-为-100"><a href="#gc-probability-gc-运行概率-1-为-100" class="headerlink" title="gc_probability gc 运行概率 1 为 100%"></a>gc_probability gc 运行概率 1 为 100%</h4><h4 id="gc-divisor-gc-概率分母"><a href="#gc-divisor-gc-概率分母" class="headerlink" title="gc_divisor gc 概率分母"></a>gc_divisor gc 概率分母</h4><h4 id="gc-maxlifetime-指定过了多少秒之后数据就会被视为“垃圾”并被清除"><a href="#gc-maxlifetime-指定过了多少秒之后数据就会被视为“垃圾”并被清除" class="headerlink" title="gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清除"></a>gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清除</h4><h2 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h2><p>PHP 垃圾回收算法是 PHP 运行时环境提供的一种算法，用于回收不再使用的对象。其中垃圾回收算法有几大概念：引用计数，循环引用检测，分代垃圾回收，标记清除法。</p>
+<h3 id="触发"><a href="#触发" class="headerlink" title="触发"></a>触发</h3><ol>
+<li>unset</li>
+</ol>
+<p>主动 unset 变量</p>
+<ol start="2">
+<li>函数返回</li>
+</ol>
+<p>函数运行结束后，return，作用域内的变量会触发 gc</p>
+<ol start="3">
+<li>脚本结束</li>
+</ol>
+<p>脚本自然运行结束，会触发 gc，释放所有变量内存</p>
+<ol start="4">
+<li>根缓冲区满</li>
+</ol>
+<p>根缓冲区大小默认为 10,000 条记录，满了后就会触发 gc 主动释放内存</p>
+<h3 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h3><p>php 每个变量在 zend 中都有维护一个引用计数，当变量被引用时，引用计数加 1，当变量不再被引用时，引用计数减 1，当引用计数为 0 时，变量被销毁。</p>
+<h3 id="循环引用检测"><a href="#循环引用检测" class="headerlink" title="循环引用检测"></a>循环引用检测</h3><p>php 通过三色标记法【黑、灰、白】结合深度优先遍历，来识别循环引用。</p>
+<h3 id="分代垃圾回收"><a href="#分代垃圾回收" class="headerlink" title="分代垃圾回收"></a>分代垃圾回收</h3><p>把变量按存活时间分成三代，年轻代：新创建的变量 gc 扫码频率最高。中生代，存活一段时间的变量扫描频率降低。 长期存活的变量，扫码频率最低。<br>减少垃圾回收的频率，可以提高性能。</p>
+<h3 id="标记清除法"><a href="#标记清除法" class="headerlink" title="标记清除法"></a>标记清除法</h3><p>通过标记变量为白色，最后白色垃圾统一释放，提高性能。而非每个变量都进行释放，频繁向系统申请内存，也会提高性能。</p>
+<h2 id="php-垃圾回收流程"><a href="#php-垃圾回收流程" class="headerlink" title="php 垃圾回收流程"></a>php 垃圾回收流程</h2><blockquote>
+<p>代码：</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$profile</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Profile</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$user</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建循环引用</span></span><br><span class="line"><span class="variable">$user</span> = <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line"><span class="variable">$profile</span> = <span class="keyword">new</span> <span class="title class_">Profile</span>();</span><br><span class="line"><span class="variable">$user</span>-&gt;profile = <span class="variable">$profile</span>;  <span class="comment">// User引用Profile</span></span><br><span class="line"><span class="variable">$profile</span>-&gt;user = <span class="variable">$user</span>;     <span class="comment">// Profile引用User</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 断开外部引用</span></span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$user</span>, <span class="variable">$profile</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="垃圾回收流程"><a href="#垃圾回收流程" class="headerlink" title="垃圾回收流程"></a>垃圾回收流程</h3><pre class="mermaid">graph TB
+        A(GC扫描开始) --> B[变量user]
+        A --> D[变量profile]
+        B --标记紫色--> C[根缓冲区]
+        D --标记紫色--> C
+    subgraph 标记阶段[标记阶段]
+        C --扫描成员--> E[标记灰色]
+    end
+    subgraph 扫描阶段[扫描阶段]
+        E --深度遍历--> F[引用计数减1]
+        F --> G{refcount==0?}
+        G --Y--> H[标记为白色垃圾]
+        G --N--> I{refcount>0?}
+        I --Y--> J[标记黑色待还原]
+    end
+    subgraph 清除阶段[清除阶段]
+        H --> K[释放白色标记变量内存]
+        H --> M[还原黑色标记的变量]
+    end
+        K --> L[清空根缓冲区,等待下一次触发,缓冲区计数归零]
+    L-->N[结束]</pre>
+
+<h3 id="引用计数变化"><a href="#引用计数变化" class="headerlink" title="引用计数变化"></a>引用计数变化</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> <span class="built_in">stdClass</span>(); <span class="comment">// 新建变量 refcount=1,is_ref=0</span></span><br><span class="line"><span class="variable">$b</span> = <span class="keyword">new</span> <span class="built_in">stdClass</span>(); <span class="comment">// 新建变量 refcount=1,is_ref=0</span></span><br><span class="line"><span class="variable">$a</span>-&gt;ref = <span class="variable">$b</span>;  <span class="comment">// 变量赋值 $b refcount=2,is_ref=1,</span></span><br><span class="line"><span class="variable">$b</span>-&gt;ref = <span class="variable">$a</span>;  <span class="comment">// 变量赋值 $a refcount=2,is_ref=1,</span></span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$a</span>, <span class="variable">$b</span>); <span class="comment">// 循环引用，refcount=1</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">gc_collect_cycles</span>(); <span class="comment">// 手动触发GC</span></span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="title function_ invoke__">gc_status</span>());</span><br><span class="line"><span class="comment">// 输出: [&quot;collected&quot; =&gt; 2] // 回收2个对象</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/php/" rel="tag"># php</a>
+              <a href="/tags/gc/" rel="tag"># gc</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/06/28/resume-task/" rel="prev" title="面试任务清单">
+      <i class="fa fa-chevron-left"></i> 面试任务清单
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/06/28/fpm-start-process/" rel="next" title="PHP-FPM 启动流程">
+      PHP-FPM 启动流程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6-%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">PHP 垃圾回收 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">垃圾回收器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%B9%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">配置项：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#zend-enable-gc-%E6%98%AF%E5%90%A6%E5%BC%80%E5%90%AF-GC"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">zend.enable_gc 是否开启 GC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gc-probability-gc-%E8%BF%90%E8%A1%8C%E6%A6%82%E7%8E%87-1-%E4%B8%BA-100"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">gc_probability gc 运行概率 1 为 100%</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gc-divisor-gc-%E6%A6%82%E7%8E%87%E5%88%86%E6%AF%8D"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">gc_divisor gc 概率分母</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gc-maxlifetime-%E6%8C%87%E5%AE%9A%E8%BF%87%E4%BA%86%E5%A4%9A%E5%B0%91%E7%A7%92%E4%B9%8B%E5%90%8E%E6%95%B0%E6%8D%AE%E5%B0%B1%E4%BC%9A%E8%A2%AB%E8%A7%86%E4%B8%BA%E2%80%9C%E5%9E%83%E5%9C%BE%E2%80%9D%E5%B9%B6%E8%A2%AB%E6%B8%85%E9%99%A4"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清除</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">垃圾回收算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91"><span class="nav-number">1.2.1.</span> <span class="nav-text">触发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text">引用计数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E6%A3%80%E6%B5%8B"><span class="nav-number">1.2.3.</span> <span class="nav-text">循环引用检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">1.2.4.</span> <span class="nav-text">分代垃圾回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E6%B3%95"><span class="nav-number">1.2.5.</span> <span class="nav-text">标记清除法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">php 垃圾回收流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">垃圾回收流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E5%8F%98%E5%8C%96"><span class="nav-number">1.3.2.</span> <span class="nav-text">引用计数变化</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kalvin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Kalvin</p>
+  <div class="site-description" itemprop="description">Golang,PHP Developer</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/simpleKalvin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;simpleKalvin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kalvin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'neutral',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon-32x32.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"simplekalvin.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Golang,PHP Developer">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kalvin&#39;s Blog">
+<meta property="og:url" content="https://simplekalvin.github.io/index.html">
+<meta property="og:site_name" content="Kalvin&#39;s Blog">
+<meta property="og:description" content="Golang,PHP Developer">
+<meta property="og:locale">
+<meta property="article:author" content="Kalvin">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://simplekalvin.github.io/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Kalvin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Kalvin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/29/mysql-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/06/29/mysql-process/" class="post-title-link" itemprop="url">数据库原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-29 09:58:30" itemprop="dateCreated datePublished" datetime="2025-06-29T09:58:30+08:00">2025-06-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="数据库原理"><a href="#数据库原理" class="headerlink" title="数据库原理"></a>数据库原理</h1><h2 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h2><ol>
+<li>客户端发起 SQL 请求</li>
+<li>权限校验</li>
+<li>解析 SQL</li>
+<li>构建 AST 抽象语法树</li>
+<li>查询优化器</li>
+<li>提交给执行器</li>
+<li>执行器选用不同的存储引擎执行</li>
+</ol>
+<pre class="mermaid">graph TB
+    A["客户端发起SQL请求"] --> B["连接器"]
+    B -->|"TCP三次握手<br>线程分配"| C["权限认证"]
+    C -->|"验证用户/库/表权限"| D["解析器"]
+    D -->|"1. 词法分析（拆解Token）<br>2. 语法分析（构建AST）"| E["优化器"]
+    E -->|"逻辑优化+物理优化<br>EXPLAIN查看执行计划"| F["执行器"]
+    F -->|"1. 二次权限校验<br>2. 调用存储引擎API"| G["存储引擎（InnoDB）"]
+    G -->|"缓冲池(Buffer Pool)检查"| H{"数据页在内存中？"}
+    H -->|"是"| I["从内存读取"]
+    H -->|"否"| J["从磁盘加载到缓冲池"]
+    I & J --> K["执行索引扫描/回表"]
+    K --> L["过滤条件处理（WHERE/HAVING）"]
+    L --> M["排序/分组（ORDER BY/GROUP BY）"]
+    M --> N["返回结果集给客户端"]
+    subgraph "Server层"
+        B
+        D
+        E
+        F
+    end
+
+    subgraph "存储引擎层"
+        G
+        H
+        I
+        J
+        K
+    end
+    style A fill:#F9E79F,stroke:#333
+    style N fill:#82E0AA,stroke:#333
+    style H fill:#D6EAF8,stroke:#3498DB</pre>
+
+<h2 id="索引原理"><a href="#索引原理" class="headerlink" title="索引原理"></a>索引原理</h2><h3 id="索引底层使用什么数据结构算法？"><a href="#索引底层使用什么数据结构算法？" class="headerlink" title="索引底层使用什么数据结构算法？"></a>索引底层使用什么数据结构算法？</h3><p>索引底层使用 B+树，叶子节点存储完整的数据行，一般 B+树的层高为 3 ～ 4 层，每层数据就是一次 io，而三次 io 就是就是磁盘访问的效率拐点，每次大概在 10ms 内响应，三次即 30ms。更大则需要分表，数据量大概在 5000 万的时候就是四层了。</p>
+<h3 id="为什么-MySQL-InnoDB-选择-B-tree-作为索引的数据结构？"><a href="#为什么-MySQL-InnoDB-选择-B-tree-作为索引的数据结构？" class="headerlink" title="为什么 MySQL InnoDB 选择 B+tree 作为索引的数据结构？"></a>为什么 MySQL InnoDB 选择 B+tree 作为索引的数据结构？</h3><p>索引底层使用 B+树，叶子节点存储完整数据行，B+树是平衡二叉树，B+树在插入数据时，会尽量保持平衡，因此插入数据时，会尽量避免数据移动，从而提高插入效率。同时叶子节点使用双向链表串起来，适配范围查询，顺序扫描对于磁盘友好，因为磁盘的磁头移动是顺序的。</p>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><p>锁分为悲观锁和乐观锁，悲观锁是先上锁，然后执行，然后释放锁，乐观锁是先执行，然后判断是否冲突，如果冲突则重试，直到成功。</p>
+<blockquote>
+<p>mysql 的锁是基于索引生效的，如果锁定的数据没有索引，则锁全表。锁升级条件为，当非唯一索引重复值超过表记录的 50%时，行锁升级为表锁。</p>
+</blockquote>
+<h3 id="共享锁"><a href="#共享锁" class="headerlink" title="共享锁"></a>共享锁</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 显式加共享锁（S）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> LOCK <span class="keyword">IN</span> SHARE MODE;</span><br></pre></td></tr></table></figure>
+
+<h3 id="排他锁"><a href="#排他锁" class="headerlink" title="排他锁"></a>排他锁</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 显式加排他锁（X）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br><span class="line"><span class="comment">-- 隐式加锁：INSERT/UPDATE/DELETE 自动加X锁[6](@ref)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="间隙锁（Gap-Lock）"><a href="#间隙锁（Gap-Lock）" class="headerlink" title="间隙锁（Gap Lock）"></a>间隙锁（Gap Lock）</h3><p>传统的行锁只能锁定表中已经存在的行，因此就算你把表中所有行都锁住，也无法阻止插入新行（幻读问题）。为了解决这个问题 InnoDB 引入 gap lock（间隙锁）。<br>间隙锁是为了解决可重复读的时候防止幻读的机制。</p>
+<p>比如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> employees (</span><br><span class="line">    id <span class="type">INT</span> AUTO_INCREMENT <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    age <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    INDEX idx_age (age)  <span class="comment">-- 普通索引</span></span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB;</span><br></pre></td></tr></table></figure>
+
+<p>已有数据：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Alicd</td>
+<td>25</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bob</td>
+<td>30</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Charlie</td>
+<td>35</td>
+</tr>
+</tbody></table>
+<p>开启事务：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 事务 A</span></span><br><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> age <span class="keyword">BETWEEN</span> <span class="number">25</span> <span class="keyword">AND</span> <span class="number">35</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  <span class="comment">-- 锁定 age 在 25~35 的范围</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>加锁效果:</strong><br><strong>记录锁</strong>: 锁定 age&#x3D;25, 30, 35 的现有行（防止修改或删除）。<br><strong>间隙锁</strong>: 锁定区间 (25, 35)，阻止插入 age&#x3D;26, 27, …, 34 的新记录。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 事务 B</span></span><br><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> employees (name, age) <span class="keyword">VALUES</span> (<span class="string">&#x27;David&#x27;</span>, <span class="number">28</span>);  <span class="comment">-- age=28 位于 (25,35) 区间</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>结果 ​:</strong><br>插入操作被阻塞 ​！因为 age&#x3D;28 在事务 A 的间隙锁范围内。<br>事务 B 需等待事务 A 提交或回滚才能继续。</p>
+<h3 id="Next-Key-Lock"><a href="#Next-Key-Lock" class="headerlink" title="Next-Key Lock"></a>Next-Key Lock</h3><p>案例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> employees (</span><br><span class="line">    id <span class="type">INT</span> AUTO_INCREMENT <span class="keyword">PRIMARY</span> KEY,   <span class="comment">-- 主键索引</span></span><br><span class="line">    age <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    INDEX idx_age (age)                  <span class="comment">-- 普通索引（非唯一）</span></span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 初始数据</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> employees (id, age) <span class="keyword">VALUES</span></span><br><span class="line">(<span class="number">1</span>, <span class="number">25</span>), (<span class="number">5</span>, <span class="number">30</span>), (<span class="number">10</span>, <span class="number">35</span>), (<span class="number">15</span>, <span class="number">40</span>);</span><br></pre></td></tr></table></figure>
+
+<p>已有数据：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>25</td>
+</tr>
+<tr>
+<td>5</td>
+<td>30</td>
+</tr>
+<tr>
+<td>10</td>
+<td>35</td>
+</tr>
+<tr>
+<td>15</td>
+<td>40</td>
+</tr>
+</tbody></table>
+<p>索引 idx_age 的间隙分布 ​（按 age 排序）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="operator">-</span>∞, <span class="number">25</span>], (<span class="number">25</span>, <span class="number">30</span>], (<span class="number">30</span>, <span class="number">35</span>], (<span class="number">35</span>, <span class="number">40</span>], (<span class="number">40</span>, <span class="operator">+</span>∞)</span><br></pre></td></tr></table></figure>
+
+<p>步骤 1：事务 A 执行范围查询并加锁 ​</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 事务 A</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> age <span class="keyword">BETWEEN</span> <span class="number">30</span> <span class="keyword">AND</span> <span class="number">40</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  <span class="comment">-- 锁定 age 在 30~40 的范围</span></span><br></pre></td></tr></table></figure>
+
+<p>加锁逻辑 ​ ：</p>
+<ol>
+<li>​ 定位起始点 ​：找到 age&#x3D;30（id&#x3D;5），加 Next-Key Lock (25, 30]（左开右闭）。</li>
+<li>​ 范围扫描 ​：向右遍历至 age&#x3D;35（id&#x3D;10），加 Next-Key Lock (30, 35]；继续到 age&#x3D;40（id&#x3D;15），加 Next-Key Lock (35, 40]。</li>
+<li>​ 最终锁范围 ​：<br>​Next-Key Locks​：(25, 30] + (30, 35] + (35, 40]<br>​ 实际等效区间 ​：(25, 40]（覆盖所有 age 在 30~40 的记录及间隙）。</li>
+</ol>
+<p>事务 B 尝试并发操作 ​</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 事务 B（独立事务）</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> employees (age) <span class="keyword">VALUES</span> (<span class="number">28</span>);  <span class="comment">-- 插入 age=28（位于间隙 (25,30)）</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> employees (age) <span class="keyword">VALUES</span> (<span class="number">33</span>);  <span class="comment">-- 插入 age=33（位于间隙 (30,35)）</span></span><br><span class="line"><span class="keyword">UPDATE</span> employees <span class="keyword">SET</span> age <span class="operator">=</span> <span class="number">32</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">5</span>; <span class="comment">-- 修改 id=5 的 age（原 age=30）</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="间隙锁和-Next-Key-Lock-区别"><a href="#间隙锁和-Next-Key-Lock-区别" class="headerlink" title="间隙锁和 Next-Key Lock 区别"></a>间隙锁和 Next-Key Lock 区别</h4><p>比如有以下索引值：age [25, 30, 35]</p>
+<p>我有 sql:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> age <span class="keyword">BETWEEN</span> <span class="number">25</span> <span class="keyword">AND</span> <span class="number">35</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br></pre></td></tr></table></figure>
+
+<p>间隙锁：锁定的是 26,27,28,29 和 31,32,33,34<br>而 Next-Key Lock：(26,27,28,29,30),(31,32,33,34,35) （左开右闭） 两个区间</p>
+<p>间隙锁只锁定范围内的数据，而 Next-Key Lock 锁定范围数据四间隙锁加右边临界值</p>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>事务是指一系列的数据库操作要么全都成功，要么全都失败回滚。</p>
+<h3 id="ACID-四大特性："><a href="#ACID-四大特性：" class="headerlink" title="ACID 四大特性："></a>ACID 四大特性：</h3><ol>
+<li>原子性<br>事务内的操作不可分割。比如多条插入语句，不会产生只有某一条成功的结果。</li>
+<li>一致性<br>事务操作之后, 数据库所处的状态和业务规则是一致的; 比如 a,b 账户相互转账，不会因为 a 转完事务崩溃，b 未入账的情况。</li>
+<li>隔离性<br>并发事务互不干扰，通过锁和 MVCC 实现</li>
+<li>持久性<br>事务提交后数据永久存储</li>
+</ol>
+<h3 id="MVVC（Multi-Version-Concurrency-Control）-多版本并发控制"><a href="#MVVC（Multi-Version-Concurrency-Control）-多版本并发控制" class="headerlink" title="MVVC（Multi-Version Concurrency Control） 多版本并发控制"></a>MVVC（Multi-Version Concurrency Control） 多版本并发控制</h3><h4 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h4><ol>
+<li>读写阻塞问题 ​<br>我们在事务中，如果为了保证数据正确，我们一般会把数据加锁，但是这样也会导致写阻塞，比如一个事务正在写数据，另一个事务正在读数据，那么就会产生阻塞。<br>而 MVCC 就可以在不加锁的前提下解决这个问题。<br>读操作直接访问事务开始时的数据快照（旧版本），写操作创建新版本数据。读写操作互不阻塞，显著提升吞吐量</li>
+<li>解决脏读</li>
+<li>降低锁开销</li>
+</ol>
+<h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><p>读取未提交的“脏数据”​​</p>
+<p>只出现在【未提交读】</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 事务A（修改数据未提交）</span></span><br><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">UPDATE</span> accounts <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">-</span> <span class="number">100</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 余额从1000→900（未提交）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务B（读取未提交数据）</span></span><br><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">SELECT</span> balance <span class="keyword">FROM</span> accounts <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 读到900（脏读）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务A回滚</span></span><br><span class="line"><span class="keyword">ROLLBACK</span>;  <span class="comment">-- 余额恢复为1000，但事务B已使用错误值900</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>幻读：结果集“凭空增减”​​</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 事务A（统计订单）</span></span><br><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> orders <span class="keyword">WHERE</span> status <span class="operator">=</span> <span class="string">&#x27;unpaid&#x27;</span>;  <span class="comment">-- 返回10条</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务B（新增订单）</span></span><br><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders (user_id, status) <span class="keyword">VALUES</span> (<span class="number">5</span>, <span class="string">&#x27;unpaid&#x27;</span>);  <span class="comment">-- 插入1条未支付订单</span></span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务A（再次统计）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> orders <span class="keyword">WHERE</span> status <span class="operator">=</span> <span class="string">&#x27;unpaid&#x27;</span>;  <span class="comment">-- 返回11条（幻读）</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="回表"><a href="#回表" class="headerlink" title="回表"></a>回表</h3><p>回表是 MySQL（尤其是 InnoDB 引擎）中基于非聚簇索引（二级索引）查询时的一种特殊数据访问机制。当查询涉及的字段未完全包含在二级索引中时，数据库需要通过二级索引定位到主键值，再回到主键索引（聚簇索引）中获取完整数据行。这一过程称为回表，其本质是索引结构限制导致的额外 I&#x2F;O 操作，可能成为性能瓶颈。</p>
+<p>条件：</p>
+<ol>
+<li>查询字段超出索引范围 ​（若查询结果需返回的字段未包含在当前使用的二级索引中，则需回表补全数据。<br>示例：索引仅覆盖(name, age)，但查询需要 email 字段。）</li>
+<li>使用非聚簇索引且需完整行数据 ​</li>
+<li>索引字段长度超限</li>
+</ol>
+<p>例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> users (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY,        <span class="comment">-- 主键（聚簇索引）</span></span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">50</span>),</span><br><span class="line">    age <span class="type">INT</span>,</span><br><span class="line">    email <span class="type">VARCHAR</span>(<span class="number">100</span>),</span><br><span class="line">    INDEX idx_age (age)        <span class="comment">-- 二级索引（仅含age和id）</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h4 id="案例-1：触发回表（需获取未索引字段）"><a href="#案例-1：触发回表（需获取未索引字段）" class="headerlink" title="案例 1：触发回表（需获取未索引字段）"></a>案例 1：触发回表（需获取未索引字段）</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> age <span class="operator">=</span> <span class="number">25</span>;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>通过二级索引 idx_age 查找 age&#x3D;25 的记录，获取对应主键 id（如 id&#x3D;101）；</li>
+<li>根据 id&#x3D;101 回表扫描主键索引，获取完整行数据（name, email 等）。<br>查询结果中，email 字段未包含在索引中，需回表补全。</li>
+</ol>
+<h4 id="案例-2：避免回表（覆盖索引）"><a href="#案例-2：避免回表（覆盖索引）" class="headerlink" title="案例 2：避免回表（覆盖索引）"></a>案例 2：避免回表（覆盖索引）</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建覆盖索引</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_age_name <span class="keyword">ON</span> users(age, name);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询仅需索引字段</span></span><br><span class="line"><span class="keyword">SELECT</span> age, name <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> age <span class="operator">=</span> <span class="number">25</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="案例-3：主键查询无需回表"><a href="#案例-3：主键查询无需回表" class="headerlink" title="案例 3：主键查询无需回表"></a>案例 3：主键查询无需回表</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">101</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="索引下推"><a href="#索引下推" class="headerlink" title="索引下推"></a>索引下推</h3><p>索引下推（Index Condition Pushdown，简称 ICP）是 MySQL 5.6 版本引入的一项查询优化技术，​ 核心目标是通过在存储引擎层提前过滤数据，减少回表次数和 Server 层负载。其本质是将 WHERE 条件中可索引过滤的部分“下推”到存储引擎层执行，而非在 Server 层处理无效数据。</p>
+<p>案例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> employees (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">50</span>),</span><br><span class="line">    age <span class="type">INT</span>,</span><br><span class="line">    salary <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>),</span><br><span class="line">    INDEX idx_name_age (name, age)  <span class="comment">-- 联合索引</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>查询：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;张%&#x27;</span> <span class="keyword">AND</span> age <span class="operator">=</span> <span class="number">30</span>;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>场景 ​</th>
+<th>执行过程 ​</th>
+<th>回表次数 ​</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>无 ICP​</td>
+<td>1. 通过索引找所有 name LIKE ‘张%’ 的主键（如 100 条）2. 回表 100 次 3. Server 层过滤 age&#x3D;30（剩 10 条）</td>
+<td>100 次</td>
+</tr>
+<tr>
+<td>有 ICP​</td>
+<td>1. 存储引擎直接在索引中过滤 name LIKE ‘张%’ AND age&#x3D;30 2. 仅回表 10 次</td>
+<td>10 次 ​</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/29/redis-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/06/29/redis-process/" class="post-title-link" itemprop="url">redis 基本概念</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-29 09:51:49" itemprop="dateCreated datePublished" datetime="2025-06-29T09:51:49+08:00">2025-06-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="redis-基本概念"><a href="#redis-基本概念" class="headerlink" title="redis 基本概念"></a>redis 基本概念</h1><h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><p>Redis 有五大基本数据类型：字符串、哈希、列表、集合、有序集合。</p>
+<h3 id="String-字符串类型"><a href="#String-字符串类型" class="headerlink" title="String 字符串类型"></a>String 字符串类型</h3><p>基本的数据存储单元，可以存储字符串、整数或者浮点数。</p>
+<p>语法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set key value</span><br></pre></td></tr></table></figure>
+
+<h3 id="Hash-哈希类型"><a href="#Hash-哈希类型" class="headerlink" title="Hash 哈希类型"></a>Hash 哈希类型</h3><p>一个键值对集合，可以存储多个字段</p>
+<p>语法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hset key field value</span><br></pre></td></tr></table></figure>
+
+<h3 id="List-列表类型"><a href="#List-列表类型" class="headerlink" title="List 列表类型"></a>List 列表类型</h3><p>一个有序的元素集合，可以存储多个元素，并且可以按照顺序进行添加、删除、修改、查询等操作。<br>语法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置 入列 头部</span></span><br><span class="line">lpush key value</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置 入列 尾部</span></span><br><span class="line">rpush key value</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取 出列 头部</span></span><br><span class="line">lpop key</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取 出列 尾部</span></span><br><span class="line">rpop key</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取 区间</span></span><br><span class="line">lrange key start stop</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取 元素索引</span></span><br><span class="line">lindex key index</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除</span></span><br><span class="line">lrem key count value</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改</span></span><br><span class="line">lset key index value</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取 长度</span></span><br><span class="line">llen key</span><br></pre></td></tr></table></figure>
+
+<h3 id="Set-集合-又名无序集合"><a href="#Set-集合-又名无序集合" class="headerlink" title="Set 集合 又名无序集合"></a>Set 集合 又名无序集合</h3><p>一个无序集合，可以存储不重复的字符串元素。唯一性</p>
+<p>语法</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置元素</span></span><br><span class="line">sadd key value</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取元素</span></span><br><span class="line">smembers key</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除元素</span></span><br><span class="line">srem key value</span><br></pre></td></tr></table></figure>
+
+<h3 id="ZSet-集合-又名有序集合"><a href="#ZSet-集合-又名有序集合" class="headerlink" title="ZSet 集合 又名有序集合"></a>ZSet 集合 又名有序集合</h3><p>类似于集合，但是每个元素都有一个分数（score）与之关联</p>
+<p>语法:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加元素</span></span><br><span class="line">zadd key score value</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取元素</span></span><br><span class="line">zrange key start stop</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除元素</span></span><br><span class="line">zrem key value</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/29/design-patterns/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/06/29/design-patterns/" class="post-title-link" itemprop="url">设计模式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-29 07:54:10" itemprop="dateCreated datePublished" datetime="2025-06-29T07:54:10+08:00">2025-06-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><p>设计模式从模式行为上分为，创建型模式、结构型模式、行为型模式。</p>
+<h2 id="创建型模式"><a href="#创建型模式" class="headerlink" title="创建型模式"></a>创建型模式</h2><h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p>工厂模式的核心优势在于将对象的创建与使用解耦，通过封装创建逻辑，让客户端无需关心具体实现细节，从而提升代码的灵活性和可维护性。它主要解决以下问题：<br>​1. 降低耦合度 ​：客户端代码只需依赖接口而非具体类，避免直接 new 对象导致的强耦合。<br>​2. 简化扩展 ​：新增产品类型时，只需扩展工厂类（如新增子类或方法），无需修改客户端代码，符合开闭原则。<br>​3. 隐藏复杂性 ​：集中管理复杂对象的创建逻辑（如数据库连接、多态实例化），减少重复代码，提升可读性</p>
+<h3 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><p>工厂模式一般只能特指某一个系列的类的工厂，但是换成别的类型就只能新建新的工厂，而抽象工厂是指把不同系列的工厂抽象成【工厂本身的抽象】，以适配不同的系列</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/28/laravel-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/06/28/laravel-process/" class="post-title-link" itemprop="url">laravel 启动原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-28 08:53:07" itemprop="dateCreated datePublished" datetime="2025-06-28T08:53:07+08:00">2025-06-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="laravel-启动原理"><a href="#laravel-启动原理" class="headerlink" title="laravel 启动原理"></a>laravel 启动原理</h1><pre class="mermaid">graph TB
+    subgraph 入口阶段
+        A["public/index.php"] --> B["检查维护模式<br>(maintenance.php)"]
+        B -->|否| C["加载 Composer 自动加载器<br>(vendor/autoload.php)"]
+        C --> D["创建应用实例<br>(bootstrap/app.php)"]
+    end
+
+    subgraph 应用初始化
+        D --> E["实例化 Illuminate\\Foundation\\Application"]
+        E --> F["注册基础绑定<br>(容器、日志、异常处理)"]
+        F --> G["注册核心服务提供者<br>(EventServiceProvider, <br>RoutingServiceProvider)"]
+        G --> H["执行引导类<br>(bootstrapWith())"]
+    end
+
+    subgraph 引导阶段
+        H --> I["DetectEnvironment<br>(加载.env)"]
+        I --> J["LoadConfiguration<br>(加载config目录)"]
+        J --> K["HandleExceptions<br>(注册全局异常处理)"]
+        K --> L["RegisterFacades<br>(门面静态代理)"]
+        L --> M["RegisterProviders<br>(注册config/app.php中的服务提供者)"]
+        M --> N["BootProviders<br>(调用所有服务提供者的boot())"]
+    end
+
+    subgraph 请求处理
+        N --> O["创建HTTP Kernel<br>(App\\Http\\Kernel)"]
+        O --> P["加载中间件<br>(全局/路由中间件)"]
+        P --> Q["Request::capture()<br>(捕获HTTP请求)"]
+        Q --> R["Pipeline处理请求<br>(中间件栈前置操作)"]
+        R --> S["路由匹配与分发<br>(Router→Controller)"]
+        S --> T["Pipeline处理响应<br>(中间件栈后置操作)"]
+    end
+
+    subgraph 响应结束
+        T --> U["生成Response对象"]
+        U --> V["$response->send()<br>(发送响应至客户端)"]
+        V --> W["$kernel->terminate()<br>(清理资源)"]
+    end
+
+    style 入口阶段 fill:#e1f5fe,stroke:#039be5
+    style 应用初始化 fill:#ffecb3,stroke:#ffc107
+    style 引导阶段 fill:#c8e6c9,stroke:#4caf50
+    style 请求处理 fill:#bbdefb,stroke:#2196f3
+    style 响应结束 fill:#ffccbc,stroke:#ff5722</pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/28/php-goroutine-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/06/28/php-goroutine-process/" class="post-title-link" itemprop="url">php-swoole 协程原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-28 08:40:27" itemprop="dateCreated datePublished" datetime="2025-06-28T08:40:27+08:00">2025-06-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="php-swoole-协程原理"><a href="#php-swoole-协程原理" class="headerlink" title="php-swoole 协程原理"></a>php-swoole 协程原理</h1><pre class="mermaid">graph TB
+    subgraph 初始化阶段[初始化阶段]
+        A[启动 Swoole 服务] --> B["创建协程容器<br>(Coroutine\\run())"]
+        B --> C["初始化事件循环<br>(EventLoop)"]
+    end
+
+    subgraph 协程创建阶段[协程创建]
+        D[事件触发] --> E["创建新协程<br>(如 onRequest/onReceive)"]
+        E --> F["保存当前执行上下文<br>(ZendVM 堆栈/寄存器)"]
+    end
+
+    subgraph IO处理阶段[IO 操作与调度]
+        F --> G{遇到 IO 操作?}
+        G -->|是| H["挂起当前协程<br>(yield)"]
+        H --> I[注册 IO 事件到 EventLoop]
+        I --> J[切换至其他就绪协程]
+        G -->|否| K[同步执行代码]
+    end
+
+    subgraph 调度器工作[调度器事件循环]
+        J --> L[EventLoop 监听 IO 事件]
+        L --> M{IO 完成?}
+        M -->|是| N["恢复对应协程<br>(resume)"]
+        N --> O[从挂起点继续执行]
+        M -->|否| L
+    end
+
+    subgraph 结果处理[协程结束]
+        O --> P[返回结果/释放资源]
+        P --> Q[销毁协程上下文]
+    end
+
+    style 初始化阶段 fill:#e1f5fe,stroke:#039be5
+    style 协程创建阶段 fill:#ffecb3,stroke:#ffc107
+    style IO处理阶段 fill:#c8e6c9,stroke:#4caf50
+    style 调度器工作 fill:#bbdefb,stroke:#2196f3
+    style 结果处理 fill:#ffccbc,stroke:#ff5722</pre>
+
+<h2 id="协程切换调度原理"><a href="#协程切换调度原理" class="headerlink" title="协程切换调度原理"></a>协程切换调度原理</h2><pre class="mermaid">graph TB
+    subgraph Reactor线程
+        A[Reactor线程] -->|监听网络事件| B["接收新连接/数据"]
+        B -->|投递数据| C[Worker进程]
+    end
+
+    subgraph Worker进程
+        C --> D["创建主协程<br>（Reactor协程）"]
+        D --> E["协程调度器<br>（EventLoop调度）"]
+        E -->|协程切换| F[执行其他协程]
+    end
+
+    style Reactor线程 fill:#bbdefb,stroke:#2196f3
+    style Worker进程 fill:#c8e6c9,stroke:#4caf50</pre>
+
+<h2 id="select-poll-epoll"><a href="#select-poll-epoll" class="headerlink" title="select poll epoll"></a>select poll epoll</h2><h3 id="select"><a href="#select" class="headerlink" title="select"></a>select</h3><p>select 是一个系统调用，用于等待多个文件描述符的可读或可写事件。select 函数会阻塞当前进程，直到有文件描述符满足条件。长度默认为 1024, <strong>无差别轮询</strong></p>
+<ol>
+<li>用户初始化 fd_set（设置需监听的 FD 位为 1）</li>
+<li>调用 select 将 FD 集合复制到内核</li>
+<li>内核遍历所有 FD，检查是否就绪（如读缓冲区有数据）</li>
+<li>就绪的 FD 对应位保留为 1，未就绪置 0</li>
+<li>内核将修改后的集合复制回用户态</li>
+<li>用户遍历整个集合找出就绪的 FD</li>
+</ol>
+<h3 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h3><p>poll 函数和 select 函数类似，但 poll 函数有如下区别：与 select 没什么区别，唯一区别就是长度限制没有了，唯一就是受到 linux fd 的约束 <strong>无差别轮询</strong></p>
+<ol>
+<li>使用 pollfd 结构体数组管理 FD，无数量限制，但仍需每次复制整个数组到内核，内核轮询所有 FD。</li>
+<li>用户初始化 pollfd 数组（指定 FD 及关注的事件 events）</li>
+<li>调用 poll 将数组复制到内核</li>
+<li>内核遍历数组检查每个 FD 的状态</li>
+<li>将就绪事件写入 revents 字段</li>
+<li>内核返回就绪的 FD 数量</li>
+<li>用户遍历数组检查 revents 处理事件</li>
+</ol>
+<h3 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h3><p>通过事件回调触发，swoole 就用这个 epoll</p>
+<ol>
+<li>基于事件驱动：通过 epoll_ctl 注册 FD 到内核的红黑树，事件发生时通过回调将就绪 FD 加入就绪链表，epoll_wait 仅返回就绪的 FD。 |</li>
+<li>epoll_create 创建 epoll 实例（内核维护红黑树和就绪链表）</li>
+<li>epoll_ctl 注册 FD（添加到红黑树，并注册回调函数）</li>
+<li>FD 就绪时，内核回调函数将其加入就绪链表</li>
+<li>epoll_wait 从就绪链表中获取事件（无需遍历所有 FD）</li>
+<li>用户直接处理返回的就绪事件</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/28/swoole-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/06/28/swoole-process/" class="post-title-link" itemprop="url">swoole 原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-28 08:36:15" itemprop="dateCreated datePublished" datetime="2025-06-28T08:36:15+08:00">2025-06-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="swoole-原理"><a href="#swoole-原理" class="headerlink" title="swoole 原理"></a>swoole 原理</h1><pre class="mermaid">graph TB
+    subgraph 初始化阶段
+        A[启动 Master 主进程] --> B[创建 Reactor 线程组]
+        B --> C[MainReactor 监听端口]
+        C --> D[创建 Manager 管理进程]
+    end
+
+    subgraph 进程创建阶段
+        D --> E[Fork Worker 进程]
+        D --> F[Fork TaskWorker 进程]
+        E --> G[Worker 注册事件回调]
+        F --> H[TaskWorker 阻塞等待任务]
+    end
+
+    subgraph 请求处理阶段
+        I[客户端请求] --> C
+        C --分配连接--> J[Reactor 线程]
+        J --投递请求数据--> E
+    end
+
+    subgraph 任务投递阶段
+        G --耗时任务--> K[调用 $serv->task]
+        K --投递任务数据--> F
+    end
+
+    subgraph 任务处理阶段
+        H --接收任务--> L[触发 onTask 回调]
+        L --> M[同步执行耗时逻辑]
+        M --> N[返回结果 $serv->finish]
+    end
+
+    subgraph 结果回调阶段
+        N --通知--> O[Worker 进程]
+        O --触发 onFinish 回调--> P[处理任务结果]
+    end
+
+    style 初始化阶段 fill:#e1f5fe,stroke:#039be5
+    style 进程创建阶段 fill:#ffecb3,stroke:#ffc107
+    style 请求处理阶段 fill:#c8e6c9,stroke:#4caf50
+    style 任务投递阶段 fill:#bbdefb,stroke:#2196f3
+    style 任务处理阶段 fill:#ffccbc,stroke:#ff5722
+    style 结果回调阶段 fill:#d1c4e9,stroke:#673ab7</pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/28/fpm-start-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/06/28/fpm-start-process/" class="post-title-link" itemprop="url">PHP-FPM 启动流程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-28 08:01:23" itemprop="dateCreated datePublished" datetime="2025-06-28T08:01:23+08:00">2025-06-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="PHP-FPM-启动流程"><a href="#PHP-FPM-启动流程" class="headerlink" title="PHP-FPM 启动流程"></a>PHP-FPM 启动流程</h1><pre class="mermaid">graph TB
+    subgraph 初始化阶段[初始化阶段]
+        A[读取配置文件] --> B[初始化环境]
+        B --> C[创建Master进程]
+    end
+
+    subgraph Master进程[Master进程]
+        C --> D{选择进程管理模式}
+        D -->|static| E[直接创建固定数量Worker]
+        D -->|dynamic| F[创建初始Worker pm.start_servers]
+        D -->|ondemand| G[等待请求到达再创建Worker]
+        E--> H[监听端口/Socket]
+        F--> H
+        G--> H
+    end
+
+    subgraph Worker管理[Worker管理]
+        H --> I[Worker进程阻塞等待请求]
+        I --> J{请求到达?}
+        J -->|是| K[Worker接收并处理请求]
+        J -->|否| I
+        K --> L[执行PHP脚本]
+        L --> M[返回结果给Web服务器]
+        M --> I
+    end
+
+    subgraph 信号处理[信号处理]
+        N[信号事件] -->|SIGTERM| O[优雅停止服务]
+        N -->|SIGUSR2| P[重载配置]
+        O --> C
+        P --> C
+    end
+    style 初始化阶段 fill:#e1f5fe,stroke:#039be5
+    style Master进程 fill:#ffecb3,stroke:#ffc107
+    style Worker管理 fill:#c8e6c9,stroke:#4caf50
+    style 信号处理 fill:#ffcdd2,stroke:#f44336</pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/28/php-gc-principle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/06/28/php-gc-principle/" class="post-title-link" itemprop="url">PHP 垃圾回收 原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-28 06:43:55" itemprop="dateCreated datePublished" datetime="2025-06-28T06:43:55+08:00">2025-06-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="PHP-垃圾回收-原理"><a href="#PHP-垃圾回收-原理" class="headerlink" title="PHP 垃圾回收 原理"></a>PHP 垃圾回收 原理</h1><blockquote>
+<p>PHP 垃圾回收依赖两大部分，分别是垃圾回收器和垃圾回收算法。</p>
+</blockquote>
+<h2 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a>垃圾回收器</h2><p>垃圾回收器是 PHP 运行时环境提供的一种机制，用于回收不再使用的对象。</p>
+<h3 id="配置项："><a href="#配置项：" class="headerlink" title="配置项："></a>配置项：</h3><h4 id="zend-enable-gc-是否开启-GC"><a href="#zend-enable-gc-是否开启-GC" class="headerlink" title="zend.enable_gc 是否开启 GC"></a>zend.enable_gc 是否开启 GC</h4><h4 id="gc-probability-gc-运行概率-1-为-100"><a href="#gc-probability-gc-运行概率-1-为-100" class="headerlink" title="gc_probability gc 运行概率 1 为 100%"></a>gc_probability gc 运行概率 1 为 100%</h4><h4 id="gc-divisor-gc-概率分母"><a href="#gc-divisor-gc-概率分母" class="headerlink" title="gc_divisor gc 概率分母"></a>gc_divisor gc 概率分母</h4><h4 id="gc-maxlifetime-指定过了多少秒之后数据就会被视为“垃圾”并被清除"><a href="#gc-maxlifetime-指定过了多少秒之后数据就会被视为“垃圾”并被清除" class="headerlink" title="gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清除"></a>gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清除</h4><h2 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h2><p>PHP 垃圾回收算法是 PHP 运行时环境提供的一种算法，用于回收不再使用的对象。其中垃圾回收算法有几大概念：引用计数，循环引用检测，分代垃圾回收，标记清除法。</p>
+<h3 id="触发"><a href="#触发" class="headerlink" title="触发"></a>触发</h3><ol>
+<li>unset</li>
+</ol>
+<p>主动 unset 变量</p>
+<ol start="2">
+<li>函数返回</li>
+</ol>
+<p>函数运行结束后，return，作用域内的变量会触发 gc</p>
+<ol start="3">
+<li>脚本结束</li>
+</ol>
+<p>脚本自然运行结束，会触发 gc，释放所有变量内存</p>
+<ol start="4">
+<li>根缓冲区满</li>
+</ol>
+<p>根缓冲区大小默认为 10,000 条记录，满了后就会触发 gc 主动释放内存</p>
+<h3 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h3><p>php 每个变量在 zend 中都有维护一个引用计数，当变量被引用时，引用计数加 1，当变量不再被引用时，引用计数减 1，当引用计数为 0 时，变量被销毁。</p>
+<h3 id="循环引用检测"><a href="#循环引用检测" class="headerlink" title="循环引用检测"></a>循环引用检测</h3><p>php 通过三色标记法【黑、灰、白】结合深度优先遍历，来识别循环引用。</p>
+<h3 id="分代垃圾回收"><a href="#分代垃圾回收" class="headerlink" title="分代垃圾回收"></a>分代垃圾回收</h3><p>把变量按存活时间分成三代，年轻代：新创建的变量 gc 扫码频率最高。中生代，存活一段时间的变量扫描频率降低。 长期存活的变量，扫码频率最低。<br>减少垃圾回收的频率，可以提高性能。</p>
+<h3 id="标记清除法"><a href="#标记清除法" class="headerlink" title="标记清除法"></a>标记清除法</h3><p>通过标记变量为白色，最后白色垃圾统一释放，提高性能。而非每个变量都进行释放，频繁向系统申请内存，也会提高性能。</p>
+<h2 id="php-垃圾回收流程"><a href="#php-垃圾回收流程" class="headerlink" title="php 垃圾回收流程"></a>php 垃圾回收流程</h2><blockquote>
+<p>代码：</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$profile</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Profile</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$user</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建循环引用</span></span><br><span class="line"><span class="variable">$user</span> = <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line"><span class="variable">$profile</span> = <span class="keyword">new</span> <span class="title class_">Profile</span>();</span><br><span class="line"><span class="variable">$user</span>-&gt;profile = <span class="variable">$profile</span>;  <span class="comment">// User引用Profile</span></span><br><span class="line"><span class="variable">$profile</span>-&gt;user = <span class="variable">$user</span>;     <span class="comment">// Profile引用User</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 断开外部引用</span></span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$user</span>, <span class="variable">$profile</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="垃圾回收流程"><a href="#垃圾回收流程" class="headerlink" title="垃圾回收流程"></a>垃圾回收流程</h3><pre class="mermaid">graph TB
+        A(GC扫描开始) --> B[变量user]
+        A --> D[变量profile]
+        B --标记紫色--> C[根缓冲区]
+        D --标记紫色--> C
+    subgraph 标记阶段[标记阶段]
+        C --扫描成员--> E[标记灰色]
+    end
+    subgraph 扫描阶段[扫描阶段]
+        E --深度遍历--> F[引用计数减1]
+        F --> G{refcount==0?}
+        G --Y--> H[标记为白色垃圾]
+        G --N--> I{refcount>0?}
+        I --Y--> J[标记黑色待还原]
+    end
+    subgraph 清除阶段[清除阶段]
+        H --> K[释放白色标记变量内存]
+        H --> M[还原黑色标记的变量]
+    end
+        K --> L[清空根缓冲区,等待下一次触发,缓冲区计数归零]
+    L-->N[结束]</pre>
+
+<h3 id="引用计数变化"><a href="#引用计数变化" class="headerlink" title="引用计数变化"></a>引用计数变化</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> <span class="built_in">stdClass</span>(); <span class="comment">// 新建变量 refcount=1,is_ref=0</span></span><br><span class="line"><span class="variable">$b</span> = <span class="keyword">new</span> <span class="built_in">stdClass</span>(); <span class="comment">// 新建变量 refcount=1,is_ref=0</span></span><br><span class="line"><span class="variable">$a</span>-&gt;ref = <span class="variable">$b</span>;  <span class="comment">// 变量赋值 $b refcount=2,is_ref=1,</span></span><br><span class="line"><span class="variable">$b</span>-&gt;ref = <span class="variable">$a</span>;  <span class="comment">// 变量赋值 $a refcount=2,is_ref=1,</span></span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$a</span>, <span class="variable">$b</span>); <span class="comment">// 循环引用，refcount=1</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">gc_collect_cycles</span>(); <span class="comment">// 手动触发GC</span></span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="title function_ invoke__">gc_status</span>());</span><br><span class="line"><span class="comment">// 输出: [&quot;collected&quot; =&gt; 2] // 回收2个对象</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/28/resume-task/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/06/28/resume-task/" class="post-title-link" itemprop="url">面试任务清单</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-28 06:36:55" itemprop="dateCreated datePublished" datetime="2025-06-28T06:36:55+08:00">2025-06-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="面试任务"><a href="#面试任务" class="headerlink" title="面试任务"></a>面试任务</h1><ul>
+<li><input disabled="" type="checkbox"> php<ul>
+<li><input checked="" disabled="" type="checkbox"> <a href="/blog/2025/06/28/php-gc-principle">gc 垃圾回收机制</a></li>
+<li><input checked="" disabled="" type="checkbox"> <a href="/blog/2025/06/28/fpm-start-process">fpm 原理</a></li>
+<li><input checked="" disabled="" type="checkbox"> <a href="/blog/2025/06/28/swoole-process/">swoole 原理</a></li>
+<li><input checked="" disabled="" type="checkbox"> <a href="/blog/2025/06/28/php-goroutine-process/">php 协程原理</a></li>
+<li><input checked="" disabled="" type="checkbox"> <a href="/blog/2025/06/28/laravel-process">laravel 框架原理</a></li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <a href="/blog/2025/06/29/design-patterns">设计模式</a></li>
+<li><input disabled="" type="checkbox"> golang<ul>
+<li><input disabled="" type="checkbox"> gc</li>
+<li><input disabled="" type="checkbox"> 协程原理</li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> <a href="/blog/2025/06/29/redis-process">Redis</a></li>
+<li><input checked="" disabled="" type="checkbox"> <a href="/blog/2025/06/29/mysql-process">MySQL</a></li>
+<li><input disabled="" type="checkbox"> ElasticSearch</li>
+<li><input disabled="" type="checkbox"> ClickHouse</li>
+<li><input disabled="" type="checkbox"> Kafka</li>
+<li><input disabled="" type="checkbox"> Rabbitmq</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2024/11/20/post/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/11/20/post/" class="post-title-link" itemprop="url">BeegoWeb框架原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-11-20 10:54:35" itemprop="dateCreated datePublished" datetime="2024-11-20T10:54:35+08:00">2024-11-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><ol>
+<li><p>HttpServer</p>
+</li>
+<li><p>ControllerRegister</p>
+</li>
+<li><p>Config</p>
+</li>
+<li><p>LifeCycleCallback</p>
+</li>
+</ol>
+<img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyIgZGF0YS1kaWFncmFtLXR5cGU9IkNMQVNTIiBoZWlnaHQ9IjEzNHB4IiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBzdHlsZT0id2lkdGg6MzAycHg7aGVpZ2h0OjEzNHB4O2JhY2tncm91bmQ6I0ZGRkZGRjsiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMwMiAxMzQiIHdpZHRoPSIzMDJweCIgem9vbUFuZFBhbj0ibWFnbmlmeSI+PGRlZnMvPjxnPjwhLS1jbGFzcyBIdHRwU2VydmVyLS0+PGcgY2xhc3M9ImVudGl0eSIgZGF0YS1lbnRpdHk9Ikh0dHBTZXJ2ZXIiIGRhdGEtc291cmNlLWxpbmU9IjEiIGRhdGEtdWlkPSJlbnQwMDAyIiBpZD0iZW50aXR5X0h0dHBTZXJ2ZXIiPjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iMTEzLjE4NzUiIHJ4PSIyLjUiIHJ5PSIyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjI4MS4xNzg3IiB4PSI3IiB5PSI3Ii8+PGVsbGlwc2UgY3g9IjEwNS4xODgiIGN5PSIyMyIgZmlsbD0iI0YxRjFGMSIgcng9IjExIiByeT0iMTEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48cGF0aCBkPSJNMTA0LjY3MjQsMjMuNTYyNSBRMTAyLjgxMywyMi44NTk0IDEwMi4xNTY3LDIyLjA5MzggUTEwMS41MTYxLDIxLjMxMjUgMTAxLjUxNjEsMjAgUTEwMS41MTYxLDE4LjMxMjUgMTAyLjU5NDIsMTcuMzQzOCBRMTAzLjY3MjQsMTYuMzc1IDEwNS41NDc0LDE2LjM3NSBRMTA2LjQwNjcsMTYuMzc1IDEwNy4yNTA1LDE2LjU3ODEgUTEwOC4xMDk5LDE2Ljc2NTYgMTA4Ljk1MzYsMTcuMTU2MyBMMTA4Ljk1MzYsMTkuNTQ2OSBRMTA4LjE3MjQsMTguOTg0NCAxMDcuMzQ0MiwxOC43MDMxIFExMDYuNTMxNywxOC40MDYzIDEwNS43MzQ5LDE4LjQwNjMgUTEwNC44NTk5LDE4LjQwNjMgMTA0LjM3NTUsMTguNzY1NiBRMTAzLjkwNjcsMTkuMTI1IDEwMy45MDY3LDE5Ljc4MTMgUTEwMy45MDY3LDIwLjI5NjkgMTA0LjI1MDUsMjAuNjQwNiBRMTA0LjU5NDIsMjAuOTY4OCAxMDUuNjg4LDIxLjM3NSBMMTA2Ljc1MDUsMjEuNzgxMyBRMTA4LjIzNDksMjIuMzI4MSAxMDguOTM4LDIzLjIzNDQgUTEwOS42NTY3LDI0LjE0MDYgMTA5LjY1NjcsMjUuNTE1NiBRMTA5LjY1NjcsMjcuMzkwNiAxMDguNTQ3NCwyOC4zMTI1IFExMDcuNDM4LDI5LjIzNDQgMTA1LjE4OCwyOS4yMzQ0IFExMDQuMjY2MSwyOS4yMzQ0IDEwMy4zNDQyLDI5LjAxNTYgUTEwMi40MjI0LDI4Ljc5NjkgMTAxLjU2MywyOC4zNzUgTDEwMS41NjMsMjUuODQzOCBRMTAyLjUzMTcsMjYuNTMxMyAxMDMuNDUzNiwyNi44NzUgUTEwNC4zNzU1LDI3LjIxODggMTA1LjI2NjEsMjcuMjE4OCBRMTA2LjE3MjQsMjcuMjE4OCAxMDYuNjcyNCwyNi44MTI1IFExMDcuMTcyNCwyNi4zOTA2IDEwNy4xNzI0LDI1LjY1NjMgUTEwNy4xNzI0LDI1LjA5MzggMTA2LjgyODYsMjQuNjg3NSBRMTA2LjUwMDUsMjQuMjY1NiAxMDUuODc1NSwyNC4wMTU2IEwxMDQuNjcyNCwyMy41NjI1IFogIiBmaWxsPSIjMDAwMDAwIi8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNzYuMzAyNyIgeD0iMTI1LjY4OCIgeT0iMjcuODQ2NyI+SHR0cFNlcnZlcjwvdGV4dD48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHgxPSI4IiB4Mj0iMjg3LjE3ODciIHkxPSIzOSIgeTI9IjM5Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjAxLjMxMTUiIHg9IjEzIiB5PSI1NS45OTUxIj5IYW5kbGVycyAqQ29udHJvbGxlclJlZ2lzdGVyPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEzNi40NTkiIHg9IjEzIiB5PSI3Mi4yOTIiPlNlcnZlciAqaHR0cC5TZXJ2ZXI8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iOTMuMzEwNSIgeD0iMTMiIHk9Ijg4LjU4ODkiPkNmZyAgICAqQ29uZmlnPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjI2OS4xNzg3IiB4PSIxMyIgeT0iMTA0Ljg4NTciPkxpZmVDeWNsZUNhbGxiYWNrcyBbXUxpZmVDeWNsZUNhbGxCYWNrPC90ZXh0PjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgeDE9IjgiIHgyPSIyODcuMTc4NyIgeTE9IjExMi4xODc1IiB5Mj0iMTEyLjE4NzUiLz48L2c+PCEtLVNSQz1bMm91ZkFhcWtLVjBlQUlhOEpZcWdJb3NndmI4MDBlXzRsOUlTckE5WTFJdGRfQm9JZWxtUzgyU2VESnNwazJJcjJBbTBlYlgxQW1FZUtHXzIwT2l4ZndNM0E5MnNqQ25xaTkxRlBiZ2dTc0xvSmdmcE9hdkVLYzlvVGg1MlQyb0FlMURHYUFpTTAwMDBdLS0+PC9nPjwvc3ZnPg=='>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kalvin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Kalvin</p>
+  <div class="site-description" itemprop="description">Golang,PHP Developer</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/simpleKalvin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;simpleKalvin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kalvin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'neutral',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
