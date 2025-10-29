@@ -43,14 +43,7 @@
     lang   : 'zh-Hans'
   };
 </script>
-<meta name="google-site-verification" content="qp3YmDme8GAayuFPBT0W0KnEhcV_h1EDwuquUh6Hwq4" />
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4766265816301952"
-     crossorigin="anonymous"></script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4766265816301952"
-     crossorigin="anonymous"></script>
-<script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
-</script>
+
   <title>Kalvin's Blog</title>
   
 
@@ -156,6 +149,81 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2024/11/20/post/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Kalvin">
+      <meta itemprop="description" content="Golang,PHP Developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kalvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/11/20/post/" class="post-title-link" itemprop="url">BeegoWeb框架原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-11-20 10:54:35" itemprop="dateCreated datePublished" datetime="2024-11-20T10:54:35+08:00">2024-11-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><ol>
+<li><p>HttpServer</p>
+</li>
+<li><p>ControllerRegister</p>
+</li>
+<li><p>Config</p>
+</li>
+<li><p>LifeCycleCallback</p>
+</li>
+</ol>
+<img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyIgZGF0YS1kaWFncmFtLXR5cGU9IkNMQVNTIiBoZWlnaHQ9IjEzNHB4IiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBzdHlsZT0id2lkdGg6MzAycHg7aGVpZ2h0OjEzNHB4O2JhY2tncm91bmQ6I0ZGRkZGRjsiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMwMiAxMzQiIHdpZHRoPSIzMDJweCIgem9vbUFuZFBhbj0ibWFnbmlmeSI+PGRlZnMvPjxnPjwhLS1jbGFzcyBIdHRwU2VydmVyLS0+PGcgY2xhc3M9ImVudGl0eSIgZGF0YS1lbnRpdHk9Ikh0dHBTZXJ2ZXIiIGRhdGEtc291cmNlLWxpbmU9IjEiIGRhdGEtdWlkPSJlbnQwMDAyIiBpZD0iZW50aXR5X0h0dHBTZXJ2ZXIiPjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iMTEzLjE4NzUiIHJ4PSIyLjUiIHJ5PSIyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjI4MS4xNzg3IiB4PSI3IiB5PSI3Ii8+PGVsbGlwc2UgY3g9IjEwNS4xODgiIGN5PSIyMyIgZmlsbD0iI0YxRjFGMSIgcng9IjExIiByeT0iMTEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48cGF0aCBkPSJNMTA0LjY3MjQsMjMuNTYyNSBRMTAyLjgxMywyMi44NTk0IDEwMi4xNTY3LDIyLjA5MzggUTEwMS41MTYxLDIxLjMxMjUgMTAxLjUxNjEsMjAgUTEwMS41MTYxLDE4LjMxMjUgMTAyLjU5NDIsMTcuMzQzOCBRMTAzLjY3MjQsMTYuMzc1IDEwNS41NDc0LDE2LjM3NSBRMTA2LjQwNjcsMTYuMzc1IDEwNy4yNTA1LDE2LjU3ODEgUTEwOC4xMDk5LDE2Ljc2NTYgMTA4Ljk1MzYsMTcuMTU2MyBMMTA4Ljk1MzYsMTkuNTQ2OSBRMTA4LjE3MjQsMTguOTg0NCAxMDcuMzQ0MiwxOC43MDMxIFExMDYuNTMxNywxOC40MDYzIDEwNS43MzQ5LDE4LjQwNjMgUTEwNC44NTk5LDE4LjQwNjMgMTA0LjM3NTUsMTguNzY1NiBRMTAzLjkwNjcsMTkuMTI1IDEwMy45MDY3LDE5Ljc4MTMgUTEwMy45MDY3LDIwLjI5NjkgMTA0LjI1MDUsMjAuNjQwNiBRMTA0LjU5NDIsMjAuOTY4OCAxMDUuNjg4LDIxLjM3NSBMMTA2Ljc1MDUsMjEuNzgxMyBRMTA4LjIzNDksMjIuMzI4MSAxMDguOTM4LDIzLjIzNDQgUTEwOS42NTY3LDI0LjE0MDYgMTA5LjY1NjcsMjUuNTE1NiBRMTA5LjY1NjcsMjcuMzkwNiAxMDguNTQ3NCwyOC4zMTI1IFExMDcuNDM4LDI5LjIzNDQgMTA1LjE4OCwyOS4yMzQ0IFExMDQuMjY2MSwyOS4yMzQ0IDEwMy4zNDQyLDI5LjAxNTYgUTEwMi40MjI0LDI4Ljc5NjkgMTAxLjU2MywyOC4zNzUgTDEwMS41NjMsMjUuODQzOCBRMTAyLjUzMTcsMjYuNTMxMyAxMDMuNDUzNiwyNi44NzUgUTEwNC4zNzU1LDI3LjIxODggMTA1LjI2NjEsMjcuMjE4OCBRMTA2LjE3MjQsMjcuMjE4OCAxMDYuNjcyNCwyNi44MTI1IFExMDcuMTcyNCwyNi4zOTA2IDEwNy4xNzI0LDI1LjY1NjMgUTEwNy4xNzI0LDI1LjA5MzggMTA2LjgyODYsMjQuNjg3NSBRMTA2LjUwMDUsMjQuMjY1NiAxMDUuODc1NSwyNC4wMTU2IEwxMDQuNjcyNCwyMy41NjI1IFogIiBmaWxsPSIjMDAwMDAwIi8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNzYuMzAyNyIgeD0iMTI1LjY4OCIgeT0iMjcuODQ2NyI+SHR0cFNlcnZlcjwvdGV4dD48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHgxPSI4IiB4Mj0iMjg3LjE3ODciIHkxPSIzOSIgeTI9IjM5Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjAxLjMxMTUiIHg9IjEzIiB5PSI1NS45OTUxIj5IYW5kbGVycyAqQ29udHJvbGxlclJlZ2lzdGVyPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEzNi40NTkiIHg9IjEzIiB5PSI3Mi4yOTIiPlNlcnZlciAqaHR0cC5TZXJ2ZXI8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iOTMuMzEwNSIgeD0iMTMiIHk9Ijg4LjU4ODkiPkNmZyAgICAqQ29uZmlnPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjI2OS4xNzg3IiB4PSIxMyIgeT0iMTA0Ljg4NTciPkxpZmVDeWNsZUNhbGxiYWNrcyBbXUxpZmVDeWNsZUNhbGxCYWNrPC90ZXh0PjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgeDE9IjgiIHgyPSIyODcuMTc4NyIgeTE9IjExMi4xODc1IiB5Mj0iMTEyLjE4NzUiLz48L2c+PCEtLVNSQz1bMm91ZkFhcWtLVjBlQUlhOEpZcWdJb3NndmI4MDBlXzRsOUlTckE5WTFJdGRfQm9JZWxtUzgyU2VESnNwazJJcjJBbTBlYlgxQW1FZUtHXzIwT2l4ZndNM0E5MnNqQ25xaTkxRlBiZ2dTc0xvSmdmcE9hdkVLYzlvVGg1MlQyb0FlMURHYUFpTTAwMDBdLS0+PC9nPjwvc3ZnPg=='>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -312,12 +380,12 @@ end</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -423,8 +491,6 @@ if (document.querySelectorAll('pre.mermaid').length) {
   
 
   
-<amp-auto-ads type="adsense"
-        data-ad-client="ca-pub-4766265816301952">
-</amp-auto-ads>
+
 </body>
 </html>
