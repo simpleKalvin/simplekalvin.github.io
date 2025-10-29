@@ -1,0 +1,4 @@
+---
+layout: false
+---
+google.com, pub-4766265816301952, DIRECT
