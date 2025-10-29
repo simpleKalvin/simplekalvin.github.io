@@ -178,7 +178,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2025-10-29 10:24:10 / Modified: 10:28:05" itemprop="dateCreated datePublished" datetime="2025-10-29T10:24:10+08:00">2025-10-29</time>
+              <time title="Created: 2025-10-29 10:24:10 / Modified: 10:33:55" itemprop="dateCreated datePublished" datetime="2025-10-29T10:24:10+08:00">2025-10-29</time>
             </span>
 
           
@@ -192,265 +192,177 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="LangChain-6周学习计划"><a href="#LangChain-6周学习计划" class="headerlink" title="LangChain 6周学习计划"></a>LangChain 6周学习计划</h1><h2 id="学习路径概览"><a href="#学习路径概览" class="headerlink" title="学习路径概览"></a>学习路径概览</h2><pre class="mermaid">graph TD
-    A["阶段1: 基础铺垫与环境准备<br/>1周"] --> B["阶段2: 核心组件深解<br/>2周"]
-    B --> C["阶段3: 高阶功能与综合实践<br/>2周"]
-    C --> D["阶段4: 复盘优化与扩展<br/>1周"]
+          <h1 id="LangChain-6周学习计划"><a href="#LangChain-6周学习计划" class="headerlink" title="LangChain 6周学习计划"></a>LangChain 6周学习计划</h1><h2 id="学习路径概览"><a href="#学习路径概览" class="headerlink" title="学习路径概览"></a>学习路径概览</h2><pre class="mermaid">%%{init: {'flowchart': {'nodeSpacing': 30, 'rankSpacing': 30}}}%%
+graph LR
+    A["阶段1<br/>基础铺垫<br/>1周"] --> B["阶段2<br/>核心组件<br/>2周"]
+    B --> C["阶段3<br/>高阶功能<br/>2周"]
+    C --> D["阶段4<br/>复盘优化<br/>1周"]
     
-    A --> A1["前置知识学习"]
-    A --> A2["LangChain核心认知"]
-    A --> A3["开发环境搭建"]
+    A --> A1["前置知识"]
+    A --> A2["核心认知"]
+    A --> A3["环境搭建"]
     A --> A4["初始实践"]
     
-    A1 --> A1a["复习Python基础语法"]
-    A1 --> A1b["理解HTTP请求与接口调用"]
-    A1 --> A1c["掌握pip安装第三方库"]
+    B --> B1["模型输入输出<br/>3天"]
+    B --> B2["链式调用<br/>3天"]
+    B --> B3["记忆知识<br/>4天"]
     
-    A2 --> A2a["阅读官方文档"]
-    A2 --> A2b["记录LLM的3个痛点"]
-    
-    A3 --> A3a["安装Python 3.10+"]
-    A3 --> A3b["安装langchain-core ollama"]
-    A3 --> A3c["配置VS Code"]
-    
-    A4 --> A4a["启动Ollama本地模型"]
-    A4 --> A4b["编写10行内代码调用模型"]
-    
-    B --> B1["模块1: 模型与输入输出<br/>3天"]
-    B --> B2["模块2: 链式调用与运行机制<br/>3天"]
-    B --> B3["模块3: 记忆与知识增强<br/>4天"]
-    
-    B1 --> B1a["Models学习"]
-    B1 --> B1b["Prompts实践"]
-    B1 --> B1c["输出处理"]
-    
-    B1a --> B1a1["区分LLMs Chat Models Embeddings"]
-    B1a --> B1a2["调整temperature max_tokens参数"]
-    
-    B1b --> B1b1["PromptTemplate动态变量替换"]
-    B1b --> B1b2["FewShotPromptTemplate添加示例"]
-    B1b --> B1b3["ChatPromptTemplate多轮对话"]
-    
-    B1c --> B1c1["JsonOutputParser格式化输出"]
-    B1c --> B1c2["处理输出格式错误异常"]
-    
-    B2 --> B2a["Chains基础"]
-    B2 --> B2b["LCEL学习"]
-    B2 --> B2c["流式输出"]
-    
-    B2a --> B2a1["构建LLMChain"]
-    B2a --> B2a2["测试Chain的invoke方法"]
-    
-    B2b --> B2b1["用符号串联组件"]
-    B2b --> B2b2["实现翻译总结串联逻辑"]
-    
-    B2c --> B2c1["stream方法逐字输出"]
-    B2c --> B2c2["对比stream与invoke使用场景"]
-    
-    B3 --> B3a["Memory实践"]
-    B3 --> B3b["RAG基础"]
-    
-    B3a --> B3a1["ConversationBufferMemory保存对话"]
-    B3a --> B3a2["ConversationSummaryMemory压缩长对话"]
-    
-    B3b --> B3b1["PyPDFLoader加载PDF文档"]
-    B3b --> B3b2["RecursiveCharacterTextSplitter切割文本"]
-    B3b --> B3b3["Chroma存储向量并创建Retriever"]
-    B3b --> B3b4["构建RAG Chain"]
-    
-    C --> C1["Agents智能体<br/>3天"]
-    C --> C2["工程化工具<br/>2天"]
+    C --> C1["Agents<br/>3天"]
+    C --> C2["工程化<br/>2天"]
     C --> C3["综合项目<br/>5天"]
-    
-    C1 --> C1a["基础学习"]
-    C1 --> C1b["工具开发"]
-    C1 --> C1c["Agent实践"]
-    
-    C1a --> C1a1["理解Agent决策流程"]
-    C1a --> C1a2["学习Tool定义规范"]
-    
-    C1b --> C1b1["编写查询天气Tool"]
-    C1b --> C1b2["编写总结新闻Tool"]
-    
-    C1c --> C1c1["配置Agent与Tool关联"]
-    C1c --> C1c2["测试Agent自主选择工具"]
-    
-    C2 --> C2a["LangSmith配置"]
-    C2 --> C2b["Callbacks使用"]
-    
-    C2a --> C2a1["注册LangSmith账号"]
-    C2a --> C2a2["在代码中启用Tracing"]
-    
-    C2b --> C2b1["StdOutCallbackHandler打印日志"]
-    C2b --> C2b2["查看LangSmith执行链路"]
-    
-    C3 --> C3a["需求拆解"]
-    C3 --> C3b["开发实现"]
-    
-    C3a --> C3a1["明确RAG机器人核心功能"]
-    C3a --> C3a2["梳理组件依赖"]
-    
-    C3b --> C3b1["整合Memory与RAG Chain"]
-    C3b --> C3b2["添加用户输入交互逻辑"]
-    C3b --> C3b3["测试连续对话PDF问答"]
-    C3b --> C3b4["修复常见Bug"]
     
     D --> D1["知识梳理"]
     D --> D2["问题排查"]
     D --> D3["进阶学习"]
     D --> D4["输出沉淀"]
     
-    D1 --> D1a["思维导图整理组件关系"]
-    D1 --> D1b["总结各组件核心API"]
-    
-    D2 --> D2a["整理模型超时解决方法"]
-    D2 --> D2b["整理记忆丢失排查步骤"]
-    D2 --> D2c["整理检索不准优化技巧"]
-    
-    D3 --> D3a["了解多Agent通信"]
-    D3 --> D3b["了解多模态处理"]
-    D3 --> D3c["了解企业级部署"]
-    
-    D4 --> D4a["编写LangChain入门避坑指南"]
-    D4 --> D4b["整理3个核心实践项目代码"]
-    
     classDef stage fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     classDef module fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    classDef task fill:#e8f5e8,stroke:#1b5e20,stroke-width:1px
     
     class A,B,C,D stage
-    class A1,A2,A3,A4,B1,B2,B3,C1,C2,C3,D1,D2,D3,D4 module
-    class A1a,A1b,A1c,A2a,A2b,A3a,A3b,A3c,A4a,A4b,B1a,B1b,B1c,B2a,B2b,B2c,B3a,B3b,C1a,C1b,C1c,C2a,C2b,C3a,C3b,D1a,D1b,D2a,D2b,D2c,D3a,D3b,D3c,D4a,D4b task</pre>
+    class A1,A2,A3,A4,B1,B2,B3,C1,C2,C3,D1,D2,D3,D4 module</pre>
 
-<h2 id="详细学习计划"><a href="#详细学习计划" class="headerlink" title="详细学习计划"></a>详细学习计划</h2><h3 id="阶段1：基础铺垫与环境准备（1周）"><a href="#阶段1：基础铺垫与环境准备（1周）" class="headerlink" title="阶段1：基础铺垫与环境准备（1周）"></a>阶段1：基础铺垫与环境准备（1周）</h3><h4 id="前置知识学习"><a href="#前置知识学习" class="headerlink" title="前置知识学习"></a>前置知识学习</h4><ul>
-<li><strong>子任务1</strong>：复习Python函数&#x2F;循环&#x2F;字典基础语法</li>
-<li><strong>子任务2</strong>：理解HTTP请求（GET&#x2F;POST）与接口调用逻辑</li>
-<li><strong>子任务3</strong>：掌握Python第三方库安装（pip命令）</li>
+<h2 id="详细学习计划-TodoList"><a href="#详细学习计划-TodoList" class="headerlink" title="详细学习计划 - TodoList"></a>详细学习计划 - TodoList</h2><h3 id="🎯-阶段1：基础铺垫与环境准备（1周）"><a href="#🎯-阶段1：基础铺垫与环境准备（1周）" class="headerlink" title="🎯 阶段1：基础铺垫与环境准备（1周）"></a>🎯 阶段1：基础铺垫与环境准备（1周）</h3><h4 id="📚-前置知识学习"><a href="#📚-前置知识学习" class="headerlink" title="📚 前置知识学习"></a>📚 前置知识学习</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：复习Python函数&#x2F;循环&#x2F;字典基础语法</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：理解HTTP请求（GET&#x2F;POST）与接口调用逻辑</li>
+<li><input disabled="" type="checkbox"> <strong>子任务3</strong>：掌握Python第三方库安装（pip命令）</li>
 </ul>
-<h4 id="LangChain核心认知"><a href="#LangChain核心认知" class="headerlink" title="LangChain核心认知"></a>LangChain核心认知</h4><ul>
-<li><strong>子任务1</strong>：阅读官方文档，明确”LLM应用连接器”定位</li>
-<li><strong>子任务2</strong>：记录纯LLM的3个痛点（知识滞后&#x2F;无记忆&#x2F;无交互）</li>
+<h4 id="🧠-LangChain核心认知"><a href="#🧠-LangChain核心认知" class="headerlink" title="🧠 LangChain核心认知"></a>🧠 LangChain核心认知</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：阅读官方文档，明确”LLM应用连接器”定位</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：记录纯LLM的3个痛点（知识滞后&#x2F;无记忆&#x2F;无交互）</li>
 </ul>
-<h4 id="开发环境搭建"><a href="#开发环境搭建" class="headerlink" title="开发环境搭建"></a>开发环境搭建</h4><ul>
-<li><strong>子任务1</strong>：安装Python 3.10+并验证版本</li>
-<li><strong>子任务2</strong>：安装langchain-core、ollama库</li>
-<li><strong>子任务3</strong>：配置VS Code（安装Python插件）</li>
+<h4 id="⚙️-开发环境搭建"><a href="#⚙️-开发环境搭建" class="headerlink" title="⚙️ 开发环境搭建"></a>⚙️ 开发环境搭建</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：安装Python 3.10+并验证版本</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：安装langchain-core、ollama库</li>
+<li><input disabled="" type="checkbox"> <strong>子任务3</strong>：配置VS Code（安装Python插件）</li>
 </ul>
-<h4 id="初始实践"><a href="#初始实践" class="headerlink" title="初始实践"></a>初始实践</h4><ul>
-<li><strong>子任务1</strong>：启动Ollama本地模型（如llama3）</li>
-<li><strong>子任务2</strong>：编写10行内代码调用模型生成文本</li>
+<h4 id="🚀-初始实践"><a href="#🚀-初始实践" class="headerlink" title="🚀 初始实践"></a>🚀 初始实践</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：启动Ollama本地模型（如llama3）</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：编写10行内代码调用模型生成文本</li>
 </ul>
-<h3 id="阶段2：核心组件深解（2周）"><a href="#阶段2：核心组件深解（2周）" class="headerlink" title="阶段2：核心组件深解（2周）"></a>阶段2：核心组件深解（2周）</h3><h4 id="模块1：模型与输入输出（3天）"><a href="#模块1：模型与输入输出（3天）" class="headerlink" title="模块1：模型与输入输出（3天）"></a>模块1：模型与输入输出（3天）</h4><p><strong>Models学习</strong></p>
+<hr>
+<h3 id="🔧-阶段2：核心组件深解（2周）"><a href="#🔧-阶段2：核心组件深解（2周）" class="headerlink" title="🔧 阶段2：核心组件深解（2周）"></a>🔧 阶段2：核心组件深解（2周）</h3><h4 id="📊-模块1：模型与输入输出（3天）"><a href="#📊-模块1：模型与输入输出（3天）" class="headerlink" title="📊 模块1：模型与输入输出（3天）"></a>📊 模块1：模型与输入输出（3天）</h4><p><strong>🤖 Models学习</strong></p>
 <ul>
-<li><strong>子任务1</strong>：区分LLMs&#x2F;Chat Models&#x2F;Embeddings适用场景</li>
-<li><strong>子任务2</strong>：调整temperature&#x2F;max_tokens参数并对比输出</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：区分LLMs&#x2F;Chat Models&#x2F;Embeddings适用场景</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：调整temperature&#x2F;max_tokens参数并对比输出</li>
 </ul>
-<p><strong>Prompts实践</strong></p>
+<p><strong>💬 Prompts实践</strong></p>
 <ul>
-<li><strong>子任务1</strong>：用PromptTemplate实现动态变量替换</li>
-<li><strong>子任务2</strong>：用FewShotPromptTemplate添加示例</li>
-<li><strong>子任务3</strong>：用ChatPromptTemplate构建多轮对话提示</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：用PromptTemplate实现动态变量替换</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：用FewShotPromptTemplate添加示例</li>
+<li><input disabled="" type="checkbox"> <strong>子任务3</strong>：用ChatPromptTemplate构建多轮对话提示</li>
 </ul>
-<p><strong>输出处理</strong></p>
+<p><strong>📤 输出处理</strong></p>
 <ul>
-<li><strong>子任务1</strong>：用JsonOutputParser格式化输出</li>
-<li><strong>子任务2</strong>：处理输出格式错误的异常情况</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：用JsonOutputParser格式化输出</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：处理输出格式错误的异常情况</li>
 </ul>
-<h4 id="模块2：链式调用与运行机制（3天）"><a href="#模块2：链式调用与运行机制（3天）" class="headerlink" title="模块2：链式调用与运行机制（3天）"></a>模块2：链式调用与运行机制（3天）</h4><p><strong>Chains基础</strong></p>
+<h4 id="⛓️-模块2：链式调用与运行机制（3天）"><a href="#⛓️-模块2：链式调用与运行机制（3天）" class="headerlink" title="⛓️ 模块2：链式调用与运行机制（3天）"></a>⛓️ 模块2：链式调用与运行机制（3天）</h4><p><strong>🔗 Chains基础</strong></p>
 <ul>
-<li><strong>子任务1</strong>：构建LLMChain（Prompt+Model+Parser）</li>
-<li><strong>子任务2</strong>：测试Chain的invoke()方法</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：构建LLMChain（Prompt+Model+Parser）</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：测试Chain的invoke()方法</li>
 </ul>
-<p><strong>LCEL学习</strong></p>
+<p><strong>🎯 LCEL学习</strong></p>
 <ul>
-<li><strong>子任务1</strong>：用|符号串联Prompt→Model→Parser</li>
-<li><strong>子任务2</strong>：实现”翻译+总结”串联逻辑</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：用|符号串联Prompt→Model→Parser</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：实现”翻译+总结”串联逻辑</li>
 </ul>
-<p><strong>流式输出</strong></p>
+<p><strong>🌊 流式输出</strong></p>
 <ul>
-<li><strong>子任务1</strong>：用stream()方法实现逐字输出</li>
-<li><strong>子任务2</strong>：对比stream()与invoke()的使用场景</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：用stream()方法实现逐字输出</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：对比stream()与invoke()的使用场景</li>
 </ul>
-<h4 id="模块3：记忆与知识增强（4天）"><a href="#模块3：记忆与知识增强（4天）" class="headerlink" title="模块3：记忆与知识增强（4天）"></a>模块3：记忆与知识增强（4天）</h4><p><strong>Memory实践</strong></p>
+<h4 id="🧠-模块3：记忆与知识增强（4天）"><a href="#🧠-模块3：记忆与知识增强（4天）" class="headerlink" title="🧠 模块3：记忆与知识增强（4天）"></a>🧠 模块3：记忆与知识增强（4天）</h4><p><strong>💾 Memory实践</strong></p>
 <ul>
-<li><strong>子任务1</strong>：用ConversationBufferMemory保存对话</li>
-<li><strong>子任务2</strong>：用ConversationSummaryMemory压缩长对话</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：用ConversationBufferMemory保存对话</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：用ConversationSummaryMemory压缩长对话</li>
 </ul>
-<p><strong>RAG基础</strong></p>
+<p><strong>📚 RAG基础</strong></p>
 <ul>
-<li><strong>子任务1</strong>：用PyPDFLoader加载PDF文档</li>
-<li><strong>子任务2</strong>：用RecursiveCharacterTextSplitter切割文本</li>
-<li><strong>子任务3</strong>：用Chroma存储向量并创建Retriever</li>
-<li><strong>子任务4</strong>：构建RAG Chain（Retriever+Prompt+Model）</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：用PyPDFLoader加载PDF文档</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：用RecursiveCharacterTextSplitter切割文本</li>
+<li><input disabled="" type="checkbox"> <strong>子任务3</strong>：用Chroma存储向量并创建Retriever</li>
+<li><input disabled="" type="checkbox"> <strong>子任务4</strong>：构建RAG Chain（Retriever+Prompt+Model）</li>
 </ul>
-<h3 id="阶段3：高阶功能与综合实践（2周）"><a href="#阶段3：高阶功能与综合实践（2周）" class="headerlink" title="阶段3：高阶功能与综合实践（2周）"></a>阶段3：高阶功能与综合实践（2周）</h3><h4 id="Agents智能体（3天）"><a href="#Agents智能体（3天）" class="headerlink" title="Agents智能体（3天）"></a>Agents智能体（3天）</h4><p><strong>基础学习</strong></p>
+<hr>
+<h3 id="🚀-阶段3：高阶功能与综合实践（2周）"><a href="#🚀-阶段3：高阶功能与综合实践（2周）" class="headerlink" title="🚀 阶段3：高阶功能与综合实践（2周）"></a>🚀 阶段3：高阶功能与综合实践（2周）</h3><h4 id="🤖-Agents智能体（3天）"><a href="#🤖-Agents智能体（3天）" class="headerlink" title="🤖 Agents智能体（3天）"></a>🤖 Agents智能体（3天）</h4><p><strong>📖 基础学习</strong></p>
 <ul>
-<li><strong>子任务1</strong>：理解Agent决策流程（思考→选Tool→执行）</li>
-<li><strong>子任务2</strong>：学习Tool的定义规范</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：理解Agent决策流程（思考→选Tool→执行）</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：学习Tool的定义规范</li>
 </ul>
-<p><strong>工具开发</strong></p>
+<p><strong>🛠️ 工具开发</strong></p>
 <ul>
-<li><strong>子任务1</strong>：编写”查询天气”Tool（调用公开API）</li>
-<li><strong>子任务2</strong>：编写”总结新闻”Tool（爬取新闻页面）</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：编写”查询天气”Tool（调用公开API）</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：编写”总结新闻”Tool（爬取新闻页面）</li>
 </ul>
-<p><strong>Agent实践</strong></p>
+<p><strong>🎮 Agent实践</strong></p>
 <ul>
-<li><strong>子任务1</strong>：配置Agent与2个Tool的关联</li>
-<li><strong>子任务2</strong>：测试Agent自主选择工具完成任务</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：配置Agent与2个Tool的关联</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：测试Agent自主选择工具完成任务</li>
 </ul>
-<h4 id="工程化工具（2天）"><a href="#工程化工具（2天）" class="headerlink" title="工程化工具（2天）"></a>工程化工具（2天）</h4><p><strong>LangSmith配置</strong></p>
+<h4 id="🔧-工程化工具（2天）"><a href="#🔧-工程化工具（2天）" class="headerlink" title="🔧 工程化工具（2天）"></a>🔧 工程化工具（2天）</h4><p><strong>📊 LangSmith配置</strong></p>
 <ul>
-<li><strong>子任务1</strong>：注册LangSmith账号并获取API Key</li>
-<li><strong>子任务2</strong>：在代码中启用Tracing追踪</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：注册LangSmith账号并获取API Key</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：在代码中启用Tracing追踪</li>
 </ul>
-<p><strong>Callbacks使用</strong></p>
+<p><strong>📝 Callbacks使用</strong></p>
 <ul>
-<li><strong>子任务1</strong>：用StdOutCallbackHandler打印执行日志</li>
-<li><strong>子任务2</strong>：查看LangSmith中的执行链路</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：用StdOutCallbackHandler打印执行日志</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：查看LangSmith中的执行链路</li>
 </ul>
-<h4 id="综合项目（5天）"><a href="#综合项目（5天）" class="headerlink" title="综合项目（5天）"></a>综合项目（5天）</h4><p><strong>需求拆解</strong></p>
+<h4 id="🎯-综合项目（5天）"><a href="#🎯-综合项目（5天）" class="headerlink" title="🎯 综合项目（5天）"></a>🎯 综合项目（5天）</h4><p><strong>📋 需求拆解</strong></p>
 <ul>
-<li><strong>子任务1</strong>：明确”带记忆的RAG机器人”核心功能</li>
-<li><strong>子任务2</strong>：梳理组件依赖（Memory+RAG+Chat）</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：明确”带记忆的RAG机器人”核心功能</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：梳理组件依赖（Memory+RAG+Chat）</li>
 </ul>
-<p><strong>开发实现</strong></p>
+<p><strong>💻 开发实现</strong></p>
 <ul>
-<li><strong>子任务1</strong>：整合Memory与RAG Chain</li>
-<li><strong>子任务2</strong>：添加用户输入交互逻辑</li>
-<li><strong>子任务3</strong>：测试”连续对话+PDF问答”功能</li>
-<li><strong>子任务4</strong>：修复常见Bug（如记忆丢失、检索不准）</li>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：整合Memory与RAG Chain</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：添加用户输入交互逻辑</li>
+<li><input disabled="" type="checkbox"> <strong>子任务3</strong>：测试”连续对话+PDF问答”功能</li>
+<li><input disabled="" type="checkbox"> <strong>子任务4</strong>：修复常见Bug（如记忆丢失、检索不准）</li>
 </ul>
-<h3 id="阶段4：复盘优化与扩展（1周）"><a href="#阶段4：复盘优化与扩展（1周）" class="headerlink" title="阶段4：复盘优化与扩展（1周）"></a>阶段4：复盘优化与扩展（1周）</h3><h4 id="知识梳理"><a href="#知识梳理" class="headerlink" title="知识梳理"></a>知识梳理</h4><ul>
-<li><strong>子任务1</strong>：用思维导图整理组件关系（Engine→Brain→Memory等）</li>
-<li><strong>子任务2</strong>：总结各组件核心API与使用场景</li>
+<hr>
+<h3 id="📈-阶段4：复盘优化与扩展（1周）"><a href="#📈-阶段4：复盘优化与扩展（1周）" class="headerlink" title="📈 阶段4：复盘优化与扩展（1周）"></a>📈 阶段4：复盘优化与扩展（1周）</h3><h4 id="📚-知识梳理"><a href="#📚-知识梳理" class="headerlink" title="📚 知识梳理"></a>📚 知识梳理</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：用思维导图整理组件关系（Engine→Brain→Memory等）</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：总结各组件核心API与使用场景</li>
 </ul>
-<h4 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h4><ul>
-<li><strong>子任务1</strong>：整理”模型超时”的3种解决方法</li>
-<li><strong>子任务2</strong>：整理”记忆丢失”的排查步骤</li>
-<li><strong>子任务3</strong>：整理”检索不准”的优化技巧</li>
+<h4 id="🔍-问题排查"><a href="#🔍-问题排查" class="headerlink" title="🔍 问题排查"></a>🔍 问题排查</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：整理”模型超时”的3种解决方法</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：整理”记忆丢失”的排查步骤</li>
+<li><input disabled="" type="checkbox"> <strong>子任务3</strong>：整理”检索不准”的优化技巧</li>
 </ul>
-<h4 id="进阶学习"><a href="#进阶学习" class="headerlink" title="进阶学习"></a>进阶学习</h4><ul>
-<li><strong>子任务1</strong>：了解多Agent通信（AgentExecutor+GroupChat）</li>
-<li><strong>子任务2</strong>：了解多模态处理（加载图片+LLM分析）</li>
-<li><strong>子任务3</strong>：了解企业级部署（Docker打包、API服务）</li>
+<h4 id="🚀-进阶学习"><a href="#🚀-进阶学习" class="headerlink" title="🚀 进阶学习"></a>🚀 进阶学习</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：了解多Agent通信（AgentExecutor+GroupChat）</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：了解多模态处理（加载图片+LLM分析）</li>
+<li><input disabled="" type="checkbox"> <strong>子任务3</strong>：了解企业级部署（Docker打包、API服务）</li>
 </ul>
-<h4 id="输出沉淀"><a href="#输出沉淀" class="headerlink" title="输出沉淀"></a>输出沉淀</h4><ul>
-<li><strong>子任务1</strong>：编写”LangChain入门避坑指南”</li>
-<li><strong>子任务2</strong>：整理3个核心实践项目的完整代码</li>
+<h4 id="📝-输出沉淀"><a href="#📝-输出沉淀" class="headerlink" title="📝 输出沉淀"></a>📝 输出沉淀</h4><ul>
+<li><input disabled="" type="checkbox"> <strong>子任务1</strong>：编写”LangChain入门避坑指南”</li>
+<li><input disabled="" type="checkbox"> <strong>子任务2</strong>：整理3个核心实践项目的完整代码</li>
 </ul>
-<h2 id="学习建议"><a href="#学习建议" class="headerlink" title="学习建议"></a>学习建议</h2><ol>
-<li><strong>循序渐进</strong>：严格按照阶段顺序学习，每个阶段都要完成所有子任务</li>
-<li><strong>实践为主</strong>：理论学习后立即动手实践，加深理解</li>
-<li><strong>记录总结</strong>：每个模块学习完成后写学习笔记</li>
-<li><strong>问题记录</strong>：遇到问题及时记录解决方案</li>
-<li><strong>项目驱动</strong>：以最终的综合项目为目标，倒推学习重点</li>
+<hr>
+<h2 id="📊-学习进度统计"><a href="#📊-学习进度统计" class="headerlink" title="📊 学习进度统计"></a>📊 学习进度统计</h2><p><strong>总任务数：</strong> 47个<br><strong>已完成：</strong> 0个<br><strong>进行中：</strong> 0个<br><strong>待开始：</strong> 47个</p>
+<h3 id="各阶段进度"><a href="#各阶段进度" class="headerlink" title="各阶段进度"></a>各阶段进度</h3><ul>
+<li>🎯 <strong>阶段1</strong>：0&#x2F;10 (0%)</li>
+<li>🔧 <strong>阶段2</strong>：0&#x2F;15 (0%)</li>
+<li>🚀 <strong>阶段3</strong>：0&#x2F;12 (0%)</li>
+<li>📈 <strong>阶段4</strong>：0&#x2F;10 (0%)</li>
+</ul>
+<hr>
+<h2 id="💡-学习建议"><a href="#💡-学习建议" class="headerlink" title="💡 学习建议"></a>💡 学习建议</h2><ol>
+<li><strong>✅ 循序渐进</strong>：严格按照阶段顺序学习，每个阶段都要完成所有子任务</li>
+<li><strong>🛠️ 实践为主</strong>：理论学习后立即动手实践，加深理解</li>
+<li><strong>📝 记录总结</strong>：每个模块学习完成后写学习笔记</li>
+<li><strong>🐛 问题记录</strong>：遇到问题及时记录解决方案</li>
+<li><strong>🎯 项目驱动</strong>：以最终的综合项目为目标，倒推学习重点</li>
 </ol>
-<p>通过这个6周的学习计划，你将能够：</p>
+<h2 id="🎉-学习成果"><a href="#🎉-学习成果" class="headerlink" title="🎉 学习成果"></a>🎉 学习成果</h2><p>通过这个6周的学习计划，你将能够：</p>
 <ul>
-<li>掌握LangChain的核心概念和使用方法</li>
-<li>构建具有记忆和知识检索能力的AI应用</li>
-<li>了解Agent的工作原理和工具开发</li>
-<li>具备解决实际问题的能力</li>
+<li>✅ 掌握LangChain的核心概念和使用方法</li>
+<li>✅ 构建具有记忆和知识检索能力的AI应用</li>
+<li>✅ 了解Agent的工作原理和工具开发</li>
+<li>✅ 具备解决实际问题的能力</li>
 </ul>
 
       
