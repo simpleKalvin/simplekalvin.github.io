@@ -4,3 +4,6 @@
 [submodule "themes/next"]
 	path = themes/next
 	url = git@github.com:theme-next/hexo-theme-next.git
+[submodule "themes/toybox"]
+	path = themes/toybox
+	url = git@github.com:DipsySu/hexo-theme-toybox.git

@@ -1,0 +1,22 @@
+# Site-specific overrides for hexo-theme-toybox.
+# Theme defaults live in themes/toybox/_config.yml; only put values you want to differ here.
+
+nav:
+  logo: /images/avatar.jpg
+
+menu:
+  主页: / || fas fa-home
+  关于: /about/ || fas fa-user
+  归档: /archives/ || fas fa-archive
+  标签: /tags/ || fas fa-tags
+  分类: /categories/ || fas fa-folder-open
+  GitHub: https://github.com/simpleKalvin || fab fa-github
+
+social:
+  # 键名会成为 <i> 的 class，必须是 fa-* 才能命中主题的像素图标映射（pixel-icons.css）
+  fa-github: https://github.com/simpleKalvin || GitHub
+
+favicon: /images/icon/favicon-32x32.png
+
+avatar:
+  img: /images/avatar.jpg
