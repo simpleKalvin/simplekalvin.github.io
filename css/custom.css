@@ -1,0 +1,27 @@
+/*
+ * 站点自定义样式。
+ * toybox 主题没有自定义 CSS 注入配置，本文件由 scripts/inject-custom-css.js
+ * 注入到每页 </head> 前，加载顺序晚于主题样式，同特异性规则以本文件为准。
+ */
+
+/* 首页 hero 头像：主题把默认像素头像写死在伪元素里
+   （home-toybox.css 的 #site-info::before），这里换成站点真实头像 */
+body.toybox-home #page-header.full_page #site-info::before {
+  background: #cfe8ff url('/images/avatar.jpg') center / cover no-repeat !important;
+}
+
+/* 首页社交图标：主题在 body.toybox-home 下隐藏了容器和它的 LINKS 徽标
+   （pixel-style.css 里有完整的卡片样式），这里按原设计整体放开 */
+body.toybox-home #page-header.full_page #site_social_icons {
+  display: inline-flex !important;
+}
+
+body.toybox-home #page-header.full_page #site_social_icons::before {
+  display: block !important;
+}
+
+/* 首页头部被主题压成 156px 紧凑条，头像+标题+社交卡片放不下会溢出，
+   这里加高成小 hero 区 */
+body.toybox-home #page-header.full_page {
+  height: 200px !important;
+}

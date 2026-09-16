@@ -1,208 +1,73 @@
-<!DOCTYPE html>
-<html lang="zh-Hans">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 7.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon/favicon.ico">
-  <link rel="mask-icon" href="/images/favicon-32x32.png" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"simplekalvin.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="PHP 垃圾回收 原理 PHP 垃圾回收依赖两大部分，分别是垃圾回收器和垃圾回收算法。  垃圾回收器垃圾回收器是 PHP 运行时环境提供的一种机制，用于回收不再使用的对象。 配置项：zend.enable_gc 是否开启 GCgc_probability gc 运行概率 1 为 100%gc_divisor gc 概率分母gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清">
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><title>PHP 垃圾回收 原理 | Kalvin's Blog</title><meta name="author" content="Kalvin"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f8f6f1"><meta name="description" content="PHP 垃圾回收 原理 PHP 垃圾回收依赖两大部分，分别是垃圾回收器和垃圾回收算法。  垃圾回收器垃圾回收器是 PHP 运行时环境提供的一种机制，用于回收不再使用的对象。 配置项：zend.enable_gc 是否开启 GCgc_probability gc 运行概率 1 为 100%gc_divisor gc 概率分母gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PHP 垃圾回收 原理">
 <meta property="og:url" content="https://simplekalvin.github.io/2025/06/28/php-gc-principle/index.html">
 <meta property="og:site_name" content="Kalvin&#39;s Blog">
 <meta property="og:description" content="PHP 垃圾回收 原理 PHP 垃圾回收依赖两大部分，分别是垃圾回收器和垃圾回收算法。  垃圾回收器垃圾回收器是 PHP 运行时环境提供的一种机制，用于回收不再使用的对象。 配置项：zend.enable_gc 是否开启 GCgc_probability gc 运行概率 1 为 100%gc_divisor gc 概率分母gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清">
 <meta property="og:locale">
+<meta property="og:image" content="https://simplekalvin.github.io/images/avatar.jpg">
 <meta property="article:published_time" content="2025-06-27T22:43:55.000Z">
-<meta property="article:modified_time" content="2025-09-23T08:42:14.574Z">
+<meta property="article:modified_time" content="2025-09-23T08:42:14.000Z">
 <meta property="article:author" content="Kalvin">
 <meta property="article:tag" content="php">
 <meta property="article:tag" content="gc">
 <meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://simplekalvin.github.io/2025/06/28/php-gc-principle/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-Hans'
-  };
-</script>
-
-  <title>PHP 垃圾回收 原理 | Kalvin's Blog</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
+<meta name="twitter:image" content="https://simplekalvin.github.io/images/avatar.jpg"><link rel="shortcut icon" href="/images/icon/favicon-32x32.png"><link rel="canonical" href="https://simplekalvin.github.io/2025/06/28/php-gc-principle/index.html"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous"><link rel="preload" as="font" type="font/woff2" href="/fonts/fusion-pixel-12px-monospaced-zh_hans/d040daf63fc0e9c4ed95a6c00d92c125.woff2" crossorigin="anonymous"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.17/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/pixel-style.css"><link rel="stylesheet" href="/css/pixel-game-ui.css"><link rel="stylesheet" href="/css/pixel-layout.css"><link rel="stylesheet" href="/css/pixel-icons.css"><link rel="stylesheet" href="/css/cartridge-tokens.css"><link rel="stylesheet" href="/css/toybox-theme.css"><link rel="stylesheet" href="/css/home-toybox.css"><link rel="stylesheet" href="/css/toybox-settings.css"><link rel="stylesheet" href="/css/sprite-lab.css"><link rel="stylesheet" href="/css/fusion-pixel-fonts.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="/css/fusion-pixel-fonts.css"></noscript><script>window.GLOBAL_CONFIG = {
+  root: '/',
+  localSearch: undefined,
+  toybox: {"colorMode":"auto","locale":"zh-CN","home":{"fallbackCovers":[{"src":"/img/home-toybox/featured-island.webp","fallback":"/img/home-toybox/featured-island.png"},{"src":"/img/home-toybox/card-aqua-scene.jpg"},{"src":"/img/home-toybox/card-yellow-scene.jpg"},{"src":"/img/home-toybox/card-coral-scene.jpg"},{"src":"/img/home-toybox/card-mint-wing-scene.png"}]}},
+  highlight: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  lightbox: 'fancybox',
+  islazyload: true,
+  isAnchor: false,
+  isPhotoFigcaption: false,
+  percent: {
+    toc: true,
+    rightside: false
+  },
+  Snackbar: undefined,
+  copyright: undefined,
+  noticeOutdate: undefined,
+  runtime: '',
+  source: { justifiedGallery: { js: '', css: '' } },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PHP 垃圾回收 原理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-09-23 16:42:14'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Kalvin's Blog</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://simplekalvin.github.io/2025/06/28/php-gc-principle/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Kalvin">
-      <meta itemprop="description" content="Golang,PHP Developer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Kalvin's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          PHP 垃圾回收 原理
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-06-28 06:43:55" itemprop="dateCreated datePublished" datetime="2025-06-28T06:43:55+08:00">2025-06-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-09-23 16:42:14" itemprop="dateModified" datetime="2025-09-23T16:42:14+08:00">2025-09-23</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h1 id="PHP-垃圾回收-原理"><a href="#PHP-垃圾回收-原理" class="headerlink" title="PHP 垃圾回收 原理"></a>PHP 垃圾回收 原理</h1><blockquote>
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/custom.css">
+</head><body class="toybox-theme toybox-post "><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/images/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline" data-toybox-i18n="home.articles">Articles</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline" data-toybox-i18n="home.tags">Tags</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline" data-toybox-i18n="home.categories">Categories</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://github.com/simpleKalvin"><i class="fa-fw fab fa-github"></i><span> GitHub</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="site-brand" href="/" title="Kalvin's Blog"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/images/avatar.jpg"/><span class="site-brand-copy"><span class="site-name">Kalvin's Blog</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://github.com/simpleKalvin"><i class="fa-fw fab fa-github"></i><span> GitHub</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><div id="nav-utilities"><div id="preferences-button"><button class="site-page preferences" id="toybox-preferences-btn" type="button" title="配色与语言" aria-label="打开配色与语言设置" aria-controls="toybox-preferences-panel" aria-expanded="false"><i class="fas fa-cog fa-fw" aria-hidden="true"></i><span data-toybox-i18n="rightside.settings">设置</span></button></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">PHP 垃圾回收 原理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label" data-toybox-i18n="post.created">Created</span><time class="post-meta-date-created" datetime="2025-06-27T22:43:55.000Z" title="Created 2025-06-28 06:43:55">2025-06-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label" data-toybox-i18n="post.updated">Updated</span><time class="post-meta-date-updated" datetime="2025-09-23T08:42:14.000Z" title="Updated 2025-09-23 16:42:14">2025-09-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/PHP/">PHP</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="PHP-垃圾回收-原理"><a href="#PHP-垃圾回收-原理" class="headerlink" title="PHP 垃圾回收 原理"></a>PHP 垃圾回收 原理</h1><blockquote>
 <p>PHP 垃圾回收依赖两大部分，分别是垃圾回收器和垃圾回收算法。</p>
 </blockquote>
 <h2 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a>垃圾回收器</h2><p>垃圾回收器是 PHP 运行时环境提供的一种机制，用于回收不再使用的对象。</p>
@@ -255,217 +120,4 @@
     L-->N[结束]</pre>
 
 <h3 id="引用计数变化"><a href="#引用计数变化" class="headerlink" title="引用计数变化"></a>引用计数变化</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> <span class="built_in">stdClass</span>(); <span class="comment">// 新建变量 refcount=1,is_ref=0</span></span><br><span class="line"><span class="variable">$b</span> = <span class="keyword">new</span> <span class="built_in">stdClass</span>(); <span class="comment">// 新建变量 refcount=1,is_ref=0</span></span><br><span class="line"><span class="variable">$a</span>-&gt;ref = <span class="variable">$b</span>;  <span class="comment">// 变量赋值 $b refcount=2,is_ref=1,</span></span><br><span class="line"><span class="variable">$b</span>-&gt;ref = <span class="variable">$a</span>;  <span class="comment">// 变量赋值 $a refcount=2,is_ref=1,</span></span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$a</span>, <span class="variable">$b</span>); <span class="comment">// 循环引用，refcount=1</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">gc_collect_cycles</span>(); <span class="comment">// 手动触发GC</span></span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="title function_ invoke__">gc_status</span>());</span><br><span class="line"><span class="comment">// 输出: [&quot;collected&quot; =&gt; 2] // 回收2个对象</span></span><br></pre></td></tr></table></figure>
-
-    </div>
-
-    
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/php/" rel="tag"># php</a>
-              <a href="/tags/gc/" rel="tag"># gc</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2025/06/28/resume-task/" rel="prev" title="面试任务清单">
-      <i class="fa fa-chevron-left"></i> 面试任务清单
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2025/06/28/fpm-start-process/" rel="next" title="PHP-FPM 启动流程">
-      PHP-FPM 启动流程 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6-%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">PHP 垃圾回收 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">垃圾回收器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%B9%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">配置项：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#zend-enable-gc-%E6%98%AF%E5%90%A6%E5%BC%80%E5%90%AF-GC"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">zend.enable_gc 是否开启 GC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gc-probability-gc-%E8%BF%90%E8%A1%8C%E6%A6%82%E7%8E%87-1-%E4%B8%BA-100"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">gc_probability gc 运行概率 1 为 100%</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gc-divisor-gc-%E6%A6%82%E7%8E%87%E5%88%86%E6%AF%8D"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">gc_divisor gc 概率分母</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gc-maxlifetime-%E6%8C%87%E5%AE%9A%E8%BF%87%E4%BA%86%E5%A4%9A%E5%B0%91%E7%A7%92%E4%B9%8B%E5%90%8E%E6%95%B0%E6%8D%AE%E5%B0%B1%E4%BC%9A%E8%A2%AB%E8%A7%86%E4%B8%BA%E2%80%9C%E5%9E%83%E5%9C%BE%E2%80%9D%E5%B9%B6%E8%A2%AB%E6%B8%85%E9%99%A4"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清除</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">垃圾回收算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91"><span class="nav-number">1.2.1.</span> <span class="nav-text">触发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text">引用计数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E6%A3%80%E6%B5%8B"><span class="nav-number">1.2.3.</span> <span class="nav-text">循环引用检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">1.2.4.</span> <span class="nav-text">分代垃圾回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E6%B3%95"><span class="nav-number">1.2.5.</span> <span class="nav-text">标记清除法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">php 垃圾回收流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">垃圾回收流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E5%8F%98%E5%8C%96"><span class="nav-number">1.3.2.</span> <span class="nav-text">引用计数变化</span></a></li></ol></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Kalvin"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">Kalvin</p>
-  <div class="site-description" itemprop="description">Golang,PHP Developer</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">12</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/simpleKalvin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;simpleKalvin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2025</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Kalvin</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-if (document.querySelectorAll('pre.mermaid').length) {
-  NexT.utils.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
-    mermaid.initialize({
-      theme    : 'neutral',
-      logLevel : 3,
-      flowchart: { curve     : 'linear' },
-      gantt    : { axisFormat: '%m/%d/%Y' },
-      sequence : { actorMargin: 50 }
-    });
-  }, window.mermaid);
-}
-</script>
-
-
-  
-
-  
-
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta" data-toybox-i18n="post.copyrightAuthor">Author: </span><span class="post-copyright-info"><a href="https://simpleKalvin.github.io">Kalvin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta" data-toybox-i18n="post.copyrightLink">Link: </span><span class="post-copyright-info"><a href="https://simplekalvin.github.io/2025/06/28/php-gc-principle/">https://simplekalvin.github.io/2025/06/28/php-gc-principle/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta" data-toybox-i18n="post.copyrightNotice">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/php/">php</a><a class="post-meta__tags" href="/tags/gc/">gc</a></div><div class="social-share" data-image="/images/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/06/28/fpm-start-process/" title="PHP-FPM 启动流程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label" data-toybox-i18n="common.previousPage">Previous Post</div><div class="prev_info">PHP-FPM 启动流程</div></div></a></div><div class="next-post pull-right"><a href="/2025/06/28/resume-task/" title="面试任务清单"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label" data-toybox-i18n="common.nextPage">Next Post</div><div class="next_info">面试任务清单</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2025/06/28/fpm-start-process/" title="PHP-FPM 启动流程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-28</div><div class="title">PHP-FPM 启动流程</div></div></a></div><div><a href="/2025/06/28/laravel-process/" title="laravel 启动原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-28</div><div class="title">laravel 启动原理</div></div></a></div><div><a href="/2025/06/28/php-goroutine-process/" title="php-swoole 协程原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-28</div><div class="title">php-swoole 协程原理</div></div></a></div><div><a href="/2025/06/28/swoole-process/" title="swoole 原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-28</div><div class="title">swoole 原理</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6-%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">PHP 垃圾回收 原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">垃圾回收器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%B9%EF%BC%9A"><span class="toc-number">1.1.1.</span> <span class="toc-text">配置项：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#zend-enable-gc-%E6%98%AF%E5%90%A6%E5%BC%80%E5%90%AF-GC"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">zend.enable_gc 是否开启 GC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gc-probability-gc-%E8%BF%90%E8%A1%8C%E6%A6%82%E7%8E%87-1-%E4%B8%BA-100"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">gc_probability gc 运行概率 1 为 100%</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gc-divisor-gc-%E6%A6%82%E7%8E%87%E5%88%86%E6%AF%8D"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">gc_divisor gc 概率分母</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gc-maxlifetime-%E6%8C%87%E5%AE%9A%E8%BF%87%E4%BA%86%E5%A4%9A%E5%B0%91%E7%A7%92%E4%B9%8B%E5%90%8E%E6%95%B0%E6%8D%AE%E5%B0%B1%E4%BC%9A%E8%A2%AB%E8%A7%86%E4%B8%BA%E2%80%9C%E5%9E%83%E5%9C%BE%E2%80%9D%E5%B9%B6%E8%A2%AB%E6%B8%85%E9%99%A4"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">gc_maxlifetime 指定过了多少秒之后数据就会被视为“垃圾”并被清除</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">垃圾回收算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91"><span class="toc-number">1.2.1.</span> <span class="toc-text">触发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0"><span class="toc-number">1.2.2.</span> <span class="toc-text">引用计数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E6%A3%80%E6%B5%8B"><span class="toc-number">1.2.3.</span> <span class="toc-text">循环引用检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E4%BB%A3%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="toc-number">1.2.4.</span> <span class="toc-text">分代垃圾回收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E6%B3%95"><span class="toc-number">1.2.5.</span> <span class="toc-text">标记清除法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">php 垃圾回收流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">垃圾回收流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E5%8F%98%E5%8C%96"><span class="toc-number">1.3.2.</span> <span class="toc-text">引用计数变化</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2026 By Kalvin</div><div class="framework-info"><span data-toybox-i18n="footer.framework">Framework</span><span> </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span data-toybox-i18n="footer.theme">Theme</span><span> </span><a target="_blank" rel="noopener" href="https://github.com/DipsySu/hexo-theme-toybox">Toybox</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide" aria-hidden="true"></div><div id="rightside-config-show"><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><aside id="toybox-preferences-panel" hidden role="dialog" aria-modal="false" aria-labelledby="toybox-preferences-title"><header class="toybox-preferences-header"><h2 id="toybox-preferences-title" data-toybox-i18n="settings.title">偏好设置</h2><button id="toybox-preferences-close" type="button" title="关闭设置" aria-label="关闭设置"><i class="fas fa-times" aria-hidden="true"></i></button></header><div class="toybox-preferences-body"><div class="toybox-preference-row"><span class="toybox-preference-label" data-toybox-i18n="settings.color">配色模式</span><div class="toybox-segmented" role="group" aria-label="配色模式" data-toybox-i18n-aria="settings.color"><button type="button" data-toybox-color-mode="light" data-toybox-i18n="mode.light" aria-pressed="false">浅色</button><button type="button" data-toybox-color-mode="dark" data-toybox-i18n="mode.dark" aria-pressed="false">深色</button><button type="button" data-toybox-color-mode="auto" data-toybox-i18n="mode.auto" aria-pressed="false">自动</button></div></div><div class="toybox-preference-row"><span class="toybox-preference-label" data-toybox-i18n="settings.language">界面语言</span><div class="toybox-segmented" role="group" aria-label="界面语言" data-toybox-i18n-aria="settings.language"><button type="button" data-toybox-locale="en" data-toybox-i18n="locale.en" aria-pressed="false">English</button><button type="button" data-toybox-locale="zh-CN" data-toybox-i18n="locale.zh-CN" aria-pressed="false">简体中文</button><button type="button" data-toybox-locale="zh-TW" data-toybox-i18n="locale.zh-TW" aria-pressed="false">繁體中文</button></div></div><div class="toybox-preference-row toybox-preference-tools"><span class="toybox-preference-label" data-toybox-i18n="settings.tools">快捷功能</span><div class="toybox-action-grid"><button id="pixel-anim-btn" type="button" title="像素动效" aria-label="切换像素动效" aria-pressed="true"><i class="fas fa-gamepad" aria-hidden="true"></i><span class="toybox-action-label" data-toybox-i18n="rightside.motionOn">动效开启</span></button><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open" aria-hidden="true"></i><span class="toybox-action-label" data-toybox-i18n="rightside.readMode">阅读模式</span></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column" aria-pressed="false"><i class="fas fa-arrows-alt-h" aria-hidden="true"></i><span class="toybox-action-label" data-toybox-i18n="rightside.hideAside">单栏和双栏切换</span></button></div></div></div></aside><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.17/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.iife.min.js"></script><script src="/js/toybox-settings.js"></script><script src="/js/pixel-sprite-assets.js"></script><script src="/js/pixel-particles.js"></script><script src="/js/pixel-dino.js"></script><script src="/js/pixel-anim-toggle.js"></script></div><script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js"></script><script>if (window.mermaid) mermaid.initialize({startOnLoad: true, theme: "neutral"});</script></body></html>
